@@ -108,10 +108,6 @@ Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (m
 └─ README.md                            # this file
 ```
 
-## What this repo reproduces
-
-Non‑circular, two‑phase pipeline. (I) Build a recursion coordinate "γ" (gamma) using levels only; (II) only afterward overlay photons and analyze threads in the Thread Frame (γ, log₁₀ν). With slope locked by the frame (β ≈ log₁₀α), the physics lives in intercepts χ (mass/Z²/site transport) and local deviations (microslopes). Figures, tables, and methods are detailed in the preprint (esp. Introduction; Methods §3–4; Equations 1–7).
-
 ## Scripts in this repo implement the critical steps:
 
 - Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
