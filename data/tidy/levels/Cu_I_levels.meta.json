@@ -1,0 +1,18 @@
+{
+  "Z": 29,
+  "dense_rule": "min(0.25*Q1, max(1e-6, 0.5*gamma_bin*alpha2_target(Z,\u03bc), 5*median_sigma))",
+  "dense_thresh_eV": 0.00011561526500780683,
+  "element_symbol": "Cu",
+  "energy_conv_eV_per_cm1": 0.0001239841984,
+  "energy_source": "Level_cm1",
+  "gamma_bin": 0.02,
+  "gap_rule": "median(dE_prev) + 5*IQR",
+  "gap_thresh_eV": 0.06687628931730161,
+  "header_row_index": 0,
+  "ion": "Cu_I",
+  "medium": "vacuum",
+  "mu": 1.0,
+  "parser_version": "v1.3",
+  "raw_file_hash_sha256": "abc156f4e9d7254a990670621539a86dce87b856e2550836ac6348dcb2ba6f92",
+  "raw_file_name": "Cu_I_levels_raw.csv"
+}

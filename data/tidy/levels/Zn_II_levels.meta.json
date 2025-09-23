@@ -1,0 +1,18 @@
+{
+  "Z": 30,
+  "dense_rule": "min(0.25*Q1, max(1e-6, 0.5*gamma_bin*alpha2_target(Z,\u03bc), 5*median_sigma))",
+  "dense_thresh_eV": 0.0007528940447838472,
+  "element_symbol": "Zn",
+  "energy_conv_eV_per_cm1": 0.0001239841984,
+  "energy_source": "Level_cm1",
+  "gamma_bin": 0.02,
+  "gap_rule": "median(dE_prev) + 5*IQR",
+  "gap_thresh_eV": 0.7101070979161364,
+  "header_row_index": 0,
+  "ion": "Zn_II",
+  "medium": "vacuum",
+  "mu": 1.0,
+  "parser_version": "v1.3",
+  "raw_file_hash_sha256": "1c2af6fcd870d780da6bdc203ef391c2dc9c462d84846f94f8abc1b91c77c0ab",
+  "raw_file_name": "Zn_II_levels_raw.csv"
+}

@@ -1,0 +1,11 @@
+{
+  "parser_version": "v1.0",
+  "ion": "Zn_II",
+  "raw_lines": "data/raw/lines/Zn_II_lines_raw.csv",
+  "raw_lines_sha256": "bd9c5432b16170ddef44cbe4868ed4fbca0d6f0fd451375c03327b739f5466b8",
+  "tidy_levels": "data/tidy/levels/Zn_II_levels.csv",
+  "tidy_levels_sha256": "e4c9248ccd833974c589b02c3c4fc9c76da56dda8e7838db374cc2dab774cb6b",
+  "wavelength_medium": "vacuum",
+  "energy_tol_meV": 0.5,
+  "created_utc": "2025-08-11T14:20:48.160265Z"
+}

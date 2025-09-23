@@ -1,0 +1,11 @@
+{
+  "parser_version": "v1.0",
+  "ion": "He_I",
+  "raw_lines": "data/raw/lines/He_I_lines_raw.csv",
+  "raw_lines_sha256": "48581b133af32f8251cbe0db5a55f004ec74fc94b7fbb7fe98ab116d044896f2",
+  "tidy_levels": "data/tidy/levels/He_I_levels.csv",
+  "tidy_levels_sha256": "f12f8b4f2f45b5b458ade9518fea6bcbe35b77dcc1cb6feb6dcf3dc637aca435",
+  "wavelength_medium": "vacuum",
+  "energy_tol_meV": 0.5,
+  "created_utc": "2025-08-16T15:51:51.781895Z"
+}

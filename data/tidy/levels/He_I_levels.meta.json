@@ -1,0 +1,18 @@
+{
+  "Z": 2,
+  "dense_rule": "min(0.25*Q1, max(1e-6, 0.5*gamma_bin*alpha2_target(Z,\u03bc), 5*median_sigma))",
+  "dense_thresh_eV": 4.760223326627511e-10,
+  "element_symbol": "He",
+  "energy_conv_eV_per_cm1": 0.0001239841984,
+  "energy_source": "Level_cm1",
+  "gamma_bin": 0.02,
+  "gap_rule": "median(dE_prev) + 5*IQR",
+  "gap_thresh_eV": 3.872125595361098e-05,
+  "header_row_index": 0,
+  "ion": "He_I",
+  "medium": "vacuum",
+  "mu": 1.0,
+  "parser_version": "v1.3",
+  "raw_file_hash_sha256": "2b69788bf13860cd17425c71a8177ddcea6a3be3b0b3b13ccd4ea7867f31f036",
+  "raw_file_name": "He_I_levels_raw.csv"
+}

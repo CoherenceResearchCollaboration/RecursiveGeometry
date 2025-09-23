@@ -1,78 +1,84 @@
-# Recursive Geometry of Atomic Spectra
-## Software Reproducibility Pack
+Recursive Geometry of Atomic Spectra — Software Reproducibility Pack
+Read the pre-print: https://zenodo.org/records/17167687
+Follow us on www.thecoherencecode.com
+Kelly Heaton on LinkedIn: https://www.linkedin.com/in/kelly-heaton-studio/
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
-![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
+NOTE: If you want to reproduce the gamma ladder, you will need basic proficiency with Python as a programming language. Kelly is not a coder; ChatGPT guided her (aka "vibe coding"). We conducted this research on a 4-year old Mac with an M1 processor using Terminal, which is nothing fancy by today's standards. The data is available for free download from https://physics.nist.gov/PhysRefData/ASD/ionEnergy.html
 
-**Preprint:** https://zenodo.org/records/17167687  
-**Narrative:** https://www.thecoherencecode.com  
-**Kelly Heaton:** https://www.linkedin.com/in/kelly-heaton-studio/
+Purpose. This repository provides a minimal, end‑to‑end set of scripts, configs, and data artifacts that allow others to reproduce and audit the γ‑ladder pipeline, photon overlay, and intercept/mass checks reported in our preprint, "Recursive Geometry of Atomic Spectra" (Heaton & The Coherence Research Collaboration, 2025). The code is released as‑is to make our claims testable with NIST data. We are an independent, self-funded research operation who wants to share this knowledge with others. Our scripts are not a polished software product, and this repo is maintained in “no‑support mode.”
 
-> **Note:** To reproduce the γ-ladder, you’ll need basic Python skills. This work was done on a 4-year-old M1 Mac using Terminal. Source data are public at NIST:  
-> https://physics.nist.gov/PhysRefData/ASD/ionEnergy.html
+Contents
+	•	What this repo reproduces
+	•	Repository layout
+	•	Quick start
+	•	Data, provenance, and determinism
+	•	How to run each stage
+	◦		0) Set σ (fine‑structure constant) once
+	◦		1) Parse NIST levels → tidy levels
+	◦		2) Parse NIST lines → tidy lines
+	◦		3) Levels‑only γ‑sweep & resonance inventory
+	◦		4) (Optional) γ‑affinity & photon overlay
+	◦		5) (Optional)  → photon ladders (organize by quantum principal number)
+	◦		6) (Optional) Intercepts & isotope mass checks*
+	•	*Deuterium (D I): scope, status, and how to run
+	•	Known limitations (read this)
+	•	Citing this work
+	•	License & support
 
----
+Inventory of basic scripts (basic γ pipeline)
+* See the end of this document for auxiliary scripts used in the pre-print (not included here).
 
-## Purpose
+scripts/preprocess/nist_levels_parser_v13.py   – levels → tidy levels with QA/provenance
+scripts/preprocess/nist_lines_parser_v1.py     – lines → tidy lines (Level_ID, selection rules)
+scripts/analysis_pipeline/build_resonance_inventory.py – batch runner: levels γ-sweep, inventory
+scripts/utils/run_resonance_sweep.py           – γ loop; writes per-γ hitpairs and summaries
+scripts/utils/resonance_permutation_test.py    – permutation nulls (uniform/spacing)
+scripts/analysis_pipeline/build_attractor_affinity.py – aggregate γ-affinity (levels only)
+scripts/analysis_pipeline/process_photons.py   – overlay photons with γ-resonant levels
+scripts/analysis_pipeline/build_photon_gamma_ladders.py – organize photons into “towers”
+scripts/analysis_pipeline/rgp_physics_v1.py    – χ–β fits (linear core; curvature AIC-gated, WIP)
+scripts/analysis_pipeline/rgp_mass_estimator.py – mass intercept tests (hydrogenic collapse, isotopes; WIP)
+scripts/utils/constants.py                     – α, α² targets, canonical columns
+scripts/utils/load_sigma.py                    – read σ from sigma.json / ENV
+scripts/utils/set_sigma.py                     – write σ to sigma.json (CLI)
+scripts/utils/path_config.py                   – path registry (tag → folders)
+scripts/utils/provenance.py                    – provenance writers (hashes, thresholds, metadata)
+scripts/utils/io_helpers.py                    – CSV/Parquet I/O helpers
+sigma.json                                     – default {"sigma": 0.0072973525693}
 
-This repository provides a minimal, end-to-end set of **scripts, configs, and data pointers** to reproduce and audit the γ-ladder pipeline, photon overlay, and intercept/mass checks from our preprint, *Recursive Geometry of Atomic Spectra* (Heaton & The Coherence Research Collaboration, 2025).  
-Code is released **as-is** for scientific verification; this is **no-support mode**.
+What this repo reproduces
 
----
+Non‑circular, two‑phase pipeline. (I) Build a recursion coordinate "γ" (gamma) using levels only; (II) only afterward overlay photons and analyze threads in the Thread Frame (γ, log₁₀ν). With slope locked by the frame (β ≈ log₁₀α), the physics lives in intercepts χ (mass/Z²/site transport) and local deviations (microslopes). Figures, tables, and methods are detailed in the preprint (esp. Introduction; Methods §3–4; Equations 1–7).
 
-## Contents
+Scripts in this repo implement the critical steps:
 
-- What this repo reproduces
-- Inventory of basic scripts
-- Repository layout
-- Quick start
-- Data, provenance, determinism
-- How to run each stage
-- Deuterium (D I): scope & status
-- Known limitations
-- Citing this work
-- License & support
-- Auxiliary scripts (research extensions)
+	•	Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
 
----
+* Note: to make a quick check easier, we have provided raw and tidy levels and lines files for a small set of ions and one isotope. You can use the tidy files to build the gamma ladder, or you can process the raw files yourself (and/or download other raw files from NIST, which is exactly what we did for our paper).
 
-## What this repo reproduces
+	•	Levels‑only γ‑sweep with permutation‑null, adaptive tolerances, and FDR; inventory writer: build_resonance_inventory.py, run_resonance_sweep.py. NOTE: To build the gamma ladder, you must have you directory configured properly (as shown), but then you interact with only one script: build_resonance_inventory.py. This script calls all of the other scripts automatically. If you do not use the sigma.json file that we provided, then you need to generate your own.
 
-**Non-circular, two-phase pipeline.**  
-(I) Build recursion depth **γ** from *levels only*.  
-(II) Overlay photons post-hoc and analyze threads in the **Thread Frame** (γ, log₁₀ν).  
-Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (mass/Z²/site transport) and **microslopes**.
+	•	Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
+Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
 
----
+Design principles we adhere to here mirror the preprint:
 
-## Inventory of basic scripts (γ pipeline)
+	•	Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
 
-> See the end of this file for **auxiliary** research scripts used in the preprint (not required to reproduce the γ-ladder).
+	•	σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
+	•	Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
 
-- `scripts/preprocess/nist_levels_parser_v13.py` — levels → tidy levels (QA, provenance)
-- `scripts/preprocess/nist_lines_parser_v1.py` — lines → tidy lines (Level_ID, selection rules)
-- `scripts/analysis_pipeline/build_resonance_inventory.py` — batch runner: levels γ-sweep, inventory
-- `scripts/utils/run_resonance_sweep.py` — γ loop; writes per-γ hitpairs & per-ion summary
-- `scripts/utils/resonance_permutation_test.py` — permutation nulls (uniform/spacing)
-- `scripts/analysis_pipeline/build_attractor_affinity.py` — aggregate γ-affinity (levels-only)
-- `scripts/analysis_pipeline/process_photons.py` — overlay photons with γ-resonant levels
-- `scripts/analysis_pipeline/build_photon_gamma_ladders.py` — organize photons into “towers”
-- `scripts/analysis_pipeline/rgp_physics_v1.py` — χ–β fits (linear core; curvature AIC-gated, WIP)
-- `scripts/analysis_pipeline/rgp_mass_estimator.py` — mass intercept tests (hydrogenic collapse, isotopes; WIP)
-- `scripts/utils/constants.py` — α, α² targets, canonical columns
-- `scripts/utils/load_sigma.py` — **read** σ from `sigma.json` / `SIGMA`
-- `scripts/utils/set_sigma.py` — **write** σ to `sigma.json` (CLI)
-- `scripts/utils/path_config.py` — path registry (tag → folders)
-- `scripts/utils/provenance.py` — provenance writers (hashes, thresholds, metadata)
-- `scripts/utils/io_helpers.py` — CSV/Parquet I/O helpers
-- `sigma.json` — default `{"sigma": 0.0072973525693}` (CODATA α)
+Deuterium (D I): scope, status, and how to run
 
----
+Scope in the preprint. Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
 
-## Repository layout
+Policy in this repo. To keep the main results faithful to the preprint and to avoid confusion:
+	•	D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
+	•	For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
+	•	We provide a D I micro‑sweep YAML and example commands below so others can explore; current outcomes should be treated as inconclusive. Inventory & per‑γ summaries are produced by the sweep machinery.
 
-```text
+Repository layout
+.
 ├─ data/
 │  ├─ raw/
 │  │  ├─ levels/          # NIST *_levels_raw.csv (examples provided)
@@ -106,79 +112,53 @@ Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (m
 │     └─ resonance_permutation_test.py  # permutation nulls
 ├─ sigma.json                           # default: { "sigma": 0.0072973525693 }
 └─ README.md                            # this file
-```
 
-## Scripts in this repo implement the critical steps:
+Quick start
 
-- Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
-
-Note: to make a quick check easier, we have provided raw and tidy levels and lines files for a small set of ions and one isotope. You can use the tidy files to build the gamma ladder, or you can process the raw files yourself (and/or download other raw files from NIST, which is exactly what we did for our paper).
-
-- Levels‑only γ‑sweep with permutation‑null, adaptive tolerances, and FDR; inventory writer: build_resonance_inventory.py, run_resonance_sweep.py. NOTE: To build the gamma ladder, you must have you directory configured properly (as shown), but then you interact with only one script: build_resonance_inventory.py. This script calls all of the other scripts automatically. If you do not use the sigma.json file that we provided, then you need to generate your own.
-
-- Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
-Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
-
-The design principles we adhere to in this repo intentionally mirror the preprint:
-
-- Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
-- σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
-- Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
-
-Deuterium (D I): scope, status, and how to run: Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
-
-To keep the main results faithful to the preprint and to avoid confusion:
-
-- D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
-- For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
-- We provide a D I micro‑sweep YAML and example commands below so others can explore; current outcomes should be treated as inconclusive. Inventory & per‑γ summaries are produced by the sweep machinery.
-
-# Quick start
-
-## 0) Ensure sigma.json exists at the repo root (see below).
-## 1) Tidy NIST levels & lines (examples for O_III):
+# 0) Ensure sigma.json exists at the repo root (see below).
+# 1) Tidy NIST levels & lines (examples for O_III):
 python -m scripts.preprocess.nist_levels_parser_v13 --ion O_III
 python -m scripts.preprocess.nist_lines_parser_v1 \
   --raw_lines data/raw/lines/O_III_lines_raw.csv \
   --tidy_levels data/tidy/levels/O_III_levels.csv \
   --out_dir data/tidy/lines --wavelength_medium vacuum --energy_tol_meV 0.50
 
-## 2) Run a γ‑sweep from a YAML
+# 2) Run a γ‑sweep from a YAML
 python -m scripts.analysis_pipeline.build_resonance_inventory \
   --cfg data/meta/bio_vacuum_mu-1.yaml \
   --null_mode spacing --spacing_jitter_meV 0.0 \
   --n_iter 5000 --q_thresh 0.01 --dedup --enrich_hitpairs
-
-- The parsers write provenance‑header CSVs and sidecar JSON with file hashes, thresholds, and QA plots.
-- The sweep writes per‑γ hitpair files and a per‑ion summary (*_resonance_summary.txt + .json sidecar). build_resonance_inventory 
+	•	The parsers write provenance‑header CSVs and sidecar JSON with file hashes, thresholds, and QA plots. nist_levels_parser_v13 nist_lines_parser_v1 
+	•	The sweep writes per‑γ hitpair files and a per‑ion summary (*_resonance_summary.txt + .json sidecar). build_resonance_inventory 
 Dependencies (minimal): python>=3.10, numpy, pandas, matplotlib, scipy, statsmodels, pyyaml. (Parsers/sweeps import these directly.)
+nist_levels_parser_v13
+nist_lines_parser_v1
+run_resonance_sweep
 
-# Data, provenance, and determinism
+Data, provenance, and determinism
 
-## Data source (NIST). 
-We use only the “observed” dataset with standard NIST wavelength conventions (vacuum < 200 nm; air 200–2000 nm; vacuum > 2000 nm). Parsers preserve provenance, and overlay computations use NIST‑matched wavelengths (strict mode by default). (Preprint §2.1 and strict provenance footnote.) 
-## Deterministic RNG.
-Permutation nulls seed deterministically as a function of (ion, σ, γ), enabling reproducible p/q values across runs and machines. σ resolves from sigma.json (or SIGMA env) via load_sigma.py. resonance_permutation_test load_sigma 
-## Outputs with sidecars.
-Parsers emit .meta.json and QA; sweeps emit *_resonance_summary.txt + .json with links to tidy inputs and raw lineage. 
+	•	Data source (NIST). We use only the “observed” dataset with standard NIST wavelength conventions (vacuum < 200 nm; air 200–2000 nm; vacuum > 2000 nm). Parsers preserve provenance, and overlay computations use NIST‑matched wavelengths (strict mode by default). (Preprint §2.1 and strict provenance footnote.) 
 
-# How to run each stage
+	•	Deterministic RNG. Permutation nulls seed deterministically as a function of (ion, σ, γ), enabling reproducible p/q values across runs and machines. σ resolves from sigma.json (or SIGMA env) via load_sigma.py. resonance_permutation_test load_sigma 
+	•	Outputs with sidecars. Parsers emit .meta.json and QA; sweeps emit *_resonance_summary.txt + .json with links to tidy inputs and raw lineage. 
 
-## 0) Set σ (fine‑structure constant) once
+nist_levels_parser_v13 nist_lines_parser_v1 build_resonance_inventory
+
+How to run each stage
+0) Set σ (fine‑structure constant) once
 
 At repo root, ensure:
 
 { "sigma": 0.0072973525693 }
 If sigma.json is missing, load_sigma.py will raise a friendly error; you may also override in terminal with export SIGMA=....
 
-## 1) Parse NIST levels → tidy levels
+1) Parse NIST levels → tidy levels
 
 python -m scripts.preprocess.nist_levels_parser_v13 --ion <ION>
-or omit --ion to process all RAW_LEVELS_DIR/*_levels_raw.csv
+# or omit --ion to process all RAW_LEVELS_DIR/*_levels_raw.csv
+	•	Converts wavenumber to eV, sorts by energy, assigns stable Level_ID, flags dense/duplicate/limit rows, infers n with provenance, builds adjacency edges (energy & series), emits QA report and provenance sidecars. Outputs under data/tidy/levels/. nist_levels_parser_v13 
 
-Converts wavenumber to eV, sorts by energy, assigns stable Level_ID, flags dense/duplicate/limit rows, infers n with provenance, builds adjacency edges (energy & series), emits QA report and provenance sidecars. Outputs under data/tidy/levels/. nist_levels_parser_v13 
-
-## 2) Parse NIST lines → tidy lines
+2) Parse NIST lines → tidy lines
 
 python -m scripts.preprocess.nist_lines_parser_v1 \
   --raw_lines data/raw/lines/<ION>_lines_raw.csv \
@@ -187,9 +167,9 @@ python -m scripts.preprocess.nist_lines_parser_v1 \
   --wavelength_medium vacuum \
   --energy_tol_meV 0.50
 
-Normalizes wavelengths, converts to frequency/energy, matches upper/lower Level_ID using energy tolerances, stamps selection‑rule tags (E1, parity, ΔJ), and writes a provenance‑header CSV + sidecar JSON. Outputs under data/tidy/lines/. nist_lines_parser_v1 
+	•	Normalizes wavelengths, converts to frequency/energy, matches upper/lower Level_ID using energy tolerances, stamps selection‑rule tags (E1, parity, ΔJ), and writes a provenance‑header CSV + sidecar JSON. Outputs under data/tidy/lines/. nist_lines_parser_v1 
 
-## 3) Levels‑only γ‑sweep & resonance inventory
+3) Levels‑only γ‑sweep & resonance inventory
 
 python -m scripts.analysis_pipeline.build_resonance_inventory \
   --cfg data/meta/<YOUR>.yaml \
@@ -197,17 +177,23 @@ python -m scripts.analysis_pipeline.build_resonance_inventory \
   --n_iter 5000 --q_thresh 0.01 --dedup \
   --enrich_hitpairs
 
-Your YAML lists ions with (Z, μ, γ grid). The sweep estimates target spacings at γ using α²E₀Z²μ and an α‑scale (σ) factor, applies adaptive tolerance ladders, and computes permutation‑null p‑values with BH–FDR q across γ. Hitpair CSVs + per‑ion summary and an inventory table are written under data/results/resonance_inventory_<TAG>/
+	•	Your YAML lists ions with (Z, μ, γ grid). The sweep estimates target spacings at γ using α²E₀Z²μ and an α‑scale (σ) factor, applies adaptive tolerance ladders, and computes permutation‑null p‑values with BH–FDR q across γ. Hitpair CSVs + per‑ion summary and an inventory table are written under data/results/resonance_inventory_<TAG>/. 
+constants
+build_resonance_inventory 
+Implementation details: resonance_permutation_test.py provides uniform/spacing nulls, consecutive/all‑pairs modes, and deduping; run_resonance_sweep.py loops γ, injects per‑γ stats into hitpair rows, and writes per‑ion summaries; build_resonance_inventory.py handles YAML, tagging, resume/continue, and inventory collation.
+resonance_permutation_test
+run_resonance_sweep
+build_resonance_inventory
 
-## 4) (Optional) γ‑affinity & photon overlay → photon ladders
+4) (Optional) γ‑affinity & photon overlay → photon ladders
 This step is post‑hoc: photons are not used to define γ (non‑circularity). After the sweep, regroup γ‑resonant level pairs by (nᵢ, nₖ) and then overlay observed photons onto the γ ladder using NIST wavelengths (Thread Frame analysis follows). See Methods §4 in the preprint for the operational details of overlay and per‑tower ladder construction.
 
 Build the affinity map (one row per `(ion, gamma_bin)`):
 
-(bash)
+```bash
 python -m scripts.analysis_pipeline.build_attractor_affinity --tag <TAG>
-Example:
-python -m scripts.analysis_pipeline.build_attractor_affinity --tag D_I_micro
+# Example:
+# python -m scripts.analysis_pipeline.build_attractor_affinity --tag D_I_micro
 
 Outputs: per‑ion photon γ‑ladders indexed by (ion, tower (nᵢ,nₖ), γ) that drive thread fits, intercepts, and local microslopes (§4–5).
 
@@ -239,64 +225,66 @@ python -m scripts.analysis_pipeline.process_photons \
   --medium vacuum \
   --overwrite
 
-## 5) (Optional, but recommended) Organize the data by quantum "tower" to see patterns:
-
+5) (Optional, but recommended) Organize the data by quantum "tower" to see patterns.
 build_photon_gamma_ladders.py
 
 Examples:
-## From explicit photon overlay (create the gamma ladder, affinity, and photon overlay first)
+  # From explicit photon overlay (create the gamma ladder, affinity, and photon overlay first)
 
   python -m scripts.analysis_pipeline.build_photon_gamma_ladders \
     --overlay data/meta/photon_overlay_mu-1.csv --gamma_bin 0.02 --min_hits 1
 
-## 6) "RGP Physics" v1 — χ–β plane fits (w/ optional curvature). WIP
+6) "RGP Physics" v1 — χ–β plane fits (optional curvature). WIP
+
 Script: scripts/analysis_pipeline/rgp_physics_v1.py
-This module operationalizes the Thread‑Frame (Def. D2) with β=log10α (Eq. 3) and returns the intercepts χ and tilt diagnostics used throughout the results; the quadratic term is included “locally, if AIC demands” (Eq. 2). 
 Inputs: a directory of *_photon_ladder.csv files (from build_photon_gamma_ladders.py); optional gamma_attractor_affinity_*.csv for p/q enrichment.
 
-## Outputs:
+Outputs:
 
-- rgp_v1_tower_fits.csv — per‑tower WLS fits: beta (slope), chi (intercept), theta_deg, rmse_log10_hz, coverage/weights, and—if enabled and justified—c_quad, mean_curv, torsion_index (see below).
-- rgp_v1_pairwise_maps.csv — Δβ, Δχ, Δθ, scale 10Δβ, mapped‑overlap RMSE/R², reliability flags, optional p/q.
-- rgp_v1_ion_summary.csv — weighted means and totals per ion (including share_curvature_needed).
-- rgp_v1_tower_coverage.csv — number of γ‑bins and total photon weight per (ion, ni ,nk).
+• rgp_v1_tower_fits.csv — per‑tower WLS fits: beta (slope), chi (intercept), theta_deg, rmse_log10_hz, coverage/weights, and—if enabled and justified—c_quad, mean_curv, torsion_index (see below).
+• rgp_v1_pairwise_maps.csv — Δβ, Δχ, Δθ, scale 10Δβ, mapped‑overlap RMSE/R², reliability flags, optional p/q.
+• rgp_v1_ion_summary.csv — weighted means and totals per ion (including share_curvature_needed).
+• rgp_v1_tower_coverage.csv — number of γ‑bins and total photon weight per (ion, ni ,nk).
 
-## CLI examples:
+When curvature appears. Curvature fields (c_quad, mean_curv, torsion_index) are only non-zero if you pass --curvature, the tower has ≥ 3 γ-bins, and the quadratic beats linear by ΔAIC ≤ −2; otherwise the geometry is computed with c=0, so “curvature” will be 0/blank.
 
-Linear-only (paper-aligned):
+Paper link. This module operationalizes the Thread-Frame fits used for slopes/intercepts (Defs. D2/Eqs. 2–3) in the preprint; microslopes (δ, θ) live in a separate tool (§ 5.2).
+
+CLI examples
+
+# Linear-only (paper-aligned)
 python -m scripts.analysis_pipeline.rgp_physics_v1 \
   --photon-dir data/meta/ion_photon_ladders_mu-1 \
   --out-dir    data/results/rgp_v1
 
-With quadratic curvature (experimental) and p/q enrichment:
+# With quadratic curvature (experimental) and p/q enrichment
 python -m scripts.analysis_pipeline.rgp_physics_v1 \
   --photon-dir data/meta/ion_photon_ladders_mu-1 \
   --out-dir    data/results/rgp_v1 \
   --curvature \
   --affinity data/meta/gamma_attractor_affinity_bio_vacuum_mu-1.csv
 
-Note on "curvature":
-(c_quad, mean_curv, torsion_index) are only non-zero if you pass --curvature, the tower has ≥ 3 γ-bins, and the quadratic beats linear by ΔAIC ≤ −2; otherwise the geometry is computed with c=0, so “curvature” will be 0/blank. If --curvature is set and a tower has ≥ 3 distinct γ‑bins, the script fits both linear and quadratic WLS and applies an AIC gate: use c only if ΔAIC≤−2. When the gate fails, geom_c is set to 0 and geometry‑derived fields like mean_curv become 0 (so a blank/zero “curvature” column is expected in many cases). Curvature and the derived torsion_index are exploratory and not required to reproduce the paper’s χ–β results.
+How “curvature” works. If --curvature is set and a tower has ≥ 3 distinct γ‑bins, the script fits both linear and quadratic WLS and applies an AIC gate: use c only if ΔAIC≤−2. When the gate fails, geom_c is set to 0 and geometry‑derived fields like mean_curv become 0 (so a blank/zero “curvature” column is expected in many cases). Curvature and the derived torsion_index are exploratory and not required to reproduce the paper’s χ–β results. 
 
-Reliability.
-Flags (fit_sparse_bins, fit_low_weight, fit_high_rmse, fit_curvature_needed) and a reliability_score help filter marginal towers and maps. Consider focusing on reliability_score ≥ 0.7 for summary plots. 
+Reliability. Flags (fit_sparse_bins, fit_low_weight, fit_high_rmse, fit_curvature_needed) and a reliability_score help filter marginal towers and maps. Consider focusing on reliability_score ≥ 0.7 for summary plots. 
 
-## 7) (Optional) Intercepts & isotope mass checks
+Connection to the preprint. This module operationalizes the Thread‑Frame (Def. D2) with β=log10α (Eq. 3) and returns the intercepts χ and tilt diagnostics used throughout the results; the quadratic term is included “locally, if AIC demands” (Eq. 2). 
+
+
+7) (Optional) Intercepts & isotope mass checks
 
 With slope locked near β=log₁₀α, intercepts χ transport reduced mass and Z²; matched towers can be used to estimate isotope shifts (Eq. 5a) and check hydrogenic collapse (Eq. 5b). The preprint reports hydrogenic collapse at millidex precision and labels H↦D as data‑limited in this run (single tower).
 
 Reminder for D I: keep μ=1.0 in the levels‑only pipeline (γ discovery); treat μ in the intercept stage (χ transport). This prevents circularity and matches the study design (§3.1 note).
 
-Known limitations (read this):
+Known limitations (read this)
+	•	Catalog sparsity at high γ. Sparse NIST coverage can truncate tails and under‑estimate terminal depths by a photon or two; this principally affects tail diagnostics and any ladder‑terminus analysis. (Preprint, “Limitations of the work”.) 
 
-Catalog sparsity at high γ. Sparse NIST coverage can truncate tails and under‑estimate terminal depths by a photon or two; this principally affects tail diagnostics and any ladder‑terminus analysis. (Preprint, “Limitations of the work”.) 
+	•	D I is currently data‑limited. Only one matched tower survived reliability gates in our run, so reference statistics for H↦D were not computed. Treat current D I outputs as exploratory. (Preprint Table 5.) 
 
-D I is currently data‑limited. Only one matched tower survived reliability gates in our run, so reference statistics for H↦D were not computed. Treat current D I outputs as exploratory. (Preprint Table 5.) 
+	•	Site factors. Intercepts include a tower/site factor F site  F_\text{site} Fsite (quantum‑defect/relativistic/correlation bundle) not yet explicitly modeled here; precision mass extraction across non‑hydrogenic ions requires tower‑resolved electronic factors (future work). (Preprint §5.1.)
 
-Site factors. Intercepts include a tower/site factor F site  F_\text{site} Fsite (quantum‑defect/relativistic/correlation bundle) not yet explicitly modeled here; precision mass extraction across non‑hydrogenic ions requires tower‑resolved electronic factors (future work). (Preprint §5.1.)
-
-## Notes on the mass estimator test with D I (WIP):
-
+Notes on the mass estimator test with D I (WIP).
 In our present D I runs, the matched‑tower count is low and permutation tests are under‑powered, consistent with the preprint’s “data‑limited” status. We therefore state openly that D I results are inconclusive and that expanded coverage is future work. Outputs go under data/results/resonance_inventory_D_I_micro/ (same file patterns as the main sweep).
 
 Suggested minimal D I YAML (data/meta/D_I.yaml):
@@ -324,15 +312,15 @@ python -m scripts.analysis_pipeline.build_resonance_inventory \
   --n_iter 10000 --q_thresh 0.01 --dedup \
   --enrich_hitpairs
 
-# To cite this work:
+Citing this work
 
-Heaton, K. B. & The Coherence Research Collaboration (2025).
-Recursive Geometry of Atomic Spectra (preprint). 
-Please cite the version you used and include the repository URL/commit for code.
+	•	Primary reference (methods, figures, and claims): 
+Heaton, K. B. & The Coherence Research Collaboration (2025). Recursive Geometry of Atomic Spectra (preprint). Please cite the version you used and include the repository URL/commit for code.
 
-License & support:
-MIT License
-## Copyright (c) 2025 Kelly B. Heaton and the Coherence Research Collaboration
+License & support
+	•	License. MIT License
+
+Copyright (c) 2025 Kelly B. Heaton and the Coherence Research Collaboration
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
 of this software and associated documentation files (the "Software"), to deal
@@ -352,9 +340,9 @@ LIABILITY, WHETHER IN AN ACTION OF CONTRACT, TORT OR OTHERWISE, ARISING FROM,
 OUT OF OR IN CONNECTION WITH THE SOFTWARE OR THE USE OR OTHER DEALINGS IN 
 THE SOFTWARE.
 
-This is citizen science without funding. We cannot offer issue support or PR triage. If you publish results that use or critique this work, please cite the preprint and this repository.
+	•	This is citizen science without funding. We cannot offer issue support or PR triage. If you publish results that use or critique this work, please cite the preprint and this repository.
 
-# Appendix: FAQ (short)
+Appendix: FAQ (short)
 
 Q: Why keep μ=1.0 during the γ‑sweep? A: To avoid circularity—γ discovery is levels‑only. Reduced mass appears later in intercept transport; see Eq. 4 and §3.1 notes in the preprint.
 
@@ -367,11 +355,11 @@ Q: What exactly do the parsers write out? A: Levels parser: tidy levels CSV wi
 nist_levels_parser_v13
 nist_lines_parser_v1
 
-## Collaboration, support, and other helpful feedback is welcome: kelly@circuiticon.com 
+Collaboration, support, and other helpful feedback is welcome: kelly@circuiticon.com 
 
 Follow the light of the lantern. 🌕🪔
 
-## * Auxiliary scripts (research extensions; not required for basic γ-ladder reproduction)
+### * Auxiliary scripts (research extensions; not required for basic γ-ladder reproduction)
 
 scripts/analysis_pipeline/draw_ion_portraits_photons.py – ion portraits on (ni, nk) lattice (Figs. 2–3)
 scripts/analysis_pipeline/microslope_extractor.py       – local δ(γ), θ(γ) fields (torsion corridors; Fig. 10)

@@ -1,0 +1,18 @@
+{
+  "Z": null,
+  "dense_rule": "min(0.25*Q1, max(1e-6, 0.5*gamma_bin*alpha2_target(Z,\u03bc), 5*median_sigma))",
+  "dense_thresh_eV": 1.5498025085491918e-09,
+  "element_symbol": "D",
+  "energy_conv_eV_per_cm1": 0.0001239841984,
+  "energy_source": "Level_cm1",
+  "gamma_bin": 0.02,
+  "gap_rule": "median(dE_prev) + 5*IQR",
+  "gap_thresh_eV": 6.744830906235677e-06,
+  "header_row_index": 0,
+  "ion": "D_I",
+  "medium": "vacuum",
+  "mu": 1.0,
+  "parser_version": "v1.3",
+  "raw_file_hash_sha256": "2601653431029d6906505c1737b86381c40ddb6497a595fefa08212951a75131",
+  "raw_file_name": "D_I_levels_raw.csv"
+}

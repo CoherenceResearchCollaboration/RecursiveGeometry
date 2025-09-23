@@ -1,0 +1,18 @@
+{
+  "Z": 26,
+  "dense_rule": "min(0.25*Q1, max(1e-6, 0.5*gamma_bin*alpha2_target(Z,\u03bc), 5*median_sigma))",
+  "dense_thresh_eV": 0.00011449940722263463,
+  "element_symbol": "Fe",
+  "energy_conv_eV_per_cm1": 0.0001239841984,
+  "energy_source": "Level_cm1",
+  "gamma_bin": 0.02,
+  "gap_rule": "median(dE_prev) + 5*IQR",
+  "gap_thresh_eV": 0.05944183722706198,
+  "header_row_index": 0,
+  "ion": "Fe_II",
+  "medium": "vacuum",
+  "mu": 1.0,
+  "parser_version": "v1.3",
+  "raw_file_hash_sha256": "6825c70b0320f9ba35ef490df888e6f6be0caf0fe422a8cc16006ec81d0a0fb4",
+  "raw_file_name": "Fe_II_levels_raw.csv"
+}

@@ -1,0 +1,11 @@
+{
+  "parser_version": "v1.0",
+  "ion": "Cu_I",
+  "raw_lines": "data/raw/lines/Cu_I_lines_raw.csv",
+  "raw_lines_sha256": "4c7a2d952e6309573cb06548d82a32a15a00e9c0721fef4c370dcd6590bcc32d",
+  "tidy_levels": "data/tidy/levels/Cu_I_levels.csv",
+  "tidy_levels_sha256": "7b6f206c2da9115978c18f90c7cad21d8a50792b813a159312bed9075b6eb3de",
+  "wavelength_medium": "vacuum",
+  "energy_tol_meV": 0.5,
+  "created_utc": "2025-08-09T20:27:22.152931Z"
+}

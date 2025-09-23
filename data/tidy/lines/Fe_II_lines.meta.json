@@ -1,0 +1,11 @@
+{
+  "parser_version": "v1.0",
+  "ion": "Fe_II",
+  "raw_lines": "data/raw/lines/Fe_II_lines_raw.csv",
+  "raw_lines_sha256": "6e0cd7aea59d4a63d3f5abc359820825a22673f38becb7b95ed0fa8cbcf4c3b9",
+  "tidy_levels": "data/tidy/levels/Fe_II_levels.csv",
+  "tidy_levels_sha256": "aa00d26045c0fbd3a6245fb9f2df6768f779485aa4c38622a55a94b76324419d",
+  "wavelength_medium": "vacuum",
+  "energy_tol_meV": 0.5,
+  "created_utc": "2025-08-09T20:27:30.661086Z"
+}
