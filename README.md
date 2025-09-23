@@ -119,18 +119,17 @@ Note: to make a quick check easier, we have provided raw and tidy levels and lin
 - Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
 Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
 
-# Design principles we adhere to here mirror the preprint:
+The design principles we adhere to in this repo intentionally mirror the preprint:
 
 - Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
 - σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
 - Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
 
-## Deuterium (D I): scope, status, and how to run
+# Deuterium (D I): scope, status, and how to run
 
-# Scope in the preprint. 
 Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
 
-## Policy in this repo. To keep the main results faithful to the preprint and to avoid confusion:
+To keep the main results faithful to the preprint and to avoid confusion:
 
 - D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
 - For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
@@ -327,13 +326,14 @@ python -m scripts.analysis_pipeline.build_resonance_inventory \
   --n_iter 10000 --q_thresh 0.01 --dedup \
   --enrich_hitpairs
 
-## Citing this work
+# To cite this work:
 
-Primary reference (methods, figures, and claims): 
-Heaton, K. B. & The Coherence Research Collaboration (2025). Recursive Geometry of Atomic Spectra (preprint). Please cite the version you used and include the repository URL/commit for code.
+Heaton, K. B. & The Coherence Research Collaboration (2025).
+Recursive Geometry of Atomic Spectra (preprint). 
+Please cite the version you used and include the repository URL/commit for code.
 
-# License & support
-# MIT License
+License & support:
+MIT License
 # Copyright (c) 2025 Kelly B. Heaton and the Coherence Research Collaboration
 
 Permission is hereby granted, free of charge, to any person obtaining a copy
@@ -356,7 +356,7 @@ THE SOFTWARE.
 
 This is citizen science without funding. We cannot offer issue support or PR triage. If you publish results that use or critique this work, please cite the preprint and this repository.
 
-# Appendix: FAQ (short)
+## Appendix: FAQ (short)
 
 Q: Why keep μ=1.0 during the γ‑sweep? A: To avoid circularity—γ discovery is levels‑only. Reduced mass appears later in intercept transport; see Eq. 4 and §3.1 notes in the preprint.
 
@@ -373,7 +373,7 @@ nist_lines_parser_v1
 
 Follow the light of the lantern. 🌕🪔
 
-### * Auxiliary scripts (research extensions; not required for basic γ-ladder reproduction)
+## * Auxiliary scripts (research extensions; not required for basic γ-ladder reproduction)
 
 scripts/analysis_pipeline/draw_ion_portraits_photons.py – ion portraits on (ni, nk) lattice (Figs. 2–3)
 scripts/analysis_pipeline/microslope_extractor.py       – local δ(γ), θ(γ) fields (torsion corridors; Fig. 10)
