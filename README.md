@@ -125,9 +125,7 @@ The design principles we adhere to in this repo intentionally mirror the preprin
 - σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
 - Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
 
-# Deuterium (D I): scope, status, and how to run
-
-Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
+Deuterium (D I): scope, status, and how to run: Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
 
 To keep the main results faithful to the preprint and to avoid confusion:
 
