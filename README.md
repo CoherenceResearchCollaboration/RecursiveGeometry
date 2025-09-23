@@ -1,4 +1,5 @@
-# Recursive Geometry of Atomic Spectra — Software Reproducibility Pack
+# Recursive Geometry of Atomic Spectra
+## Software Reproducibility Pack
 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687)
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
@@ -105,7 +106,7 @@ Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (m
 │     └─ resonance_permutation_test.py  # permutation nulls
 ├─ sigma.json                           # default: { "sigma": 0.0072973525693 }
 └─ README.md                            # this file
-
+```
 
 ## What this repo reproduces
 
@@ -113,30 +114,31 @@ Non‑circular, two‑phase pipeline. (I) Build a recursion coordinate "γ" (gam
 
 ## Scripts in this repo implement the critical steps:
 
-Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
+- Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
 
-* Note: to make a quick check easier, we have provided raw and tidy levels and lines files for a small set of ions and one isotope. You can use the tidy files to build the gamma ladder, or you can process the raw files yourself (and/or download other raw files from NIST, which is exactly what we did for our paper).
+Note: to make a quick check easier, we have provided raw and tidy levels and lines files for a small set of ions and one isotope. You can use the tidy files to build the gamma ladder, or you can process the raw files yourself (and/or download other raw files from NIST, which is exactly what we did for our paper).
 
-Levels‑only γ‑sweep with permutation‑null, adaptive tolerances, and FDR; inventory writer: build_resonance_inventory.py, run_resonance_sweep.py. NOTE: To build the gamma ladder, you must have you directory configured properly (as shown), but then you interact with only one script: build_resonance_inventory.py. This script calls all of the other scripts automatically. If you do not use the sigma.json file that we provided, then you need to generate your own.
+- Levels‑only γ‑sweep with permutation‑null, adaptive tolerances, and FDR; inventory writer: build_resonance_inventory.py, run_resonance_sweep.py. NOTE: To build the gamma ladder, you must have you directory configured properly (as shown), but then you interact with only one script: build_resonance_inventory.py. This script calls all of the other scripts automatically. If you do not use the sigma.json file that we provided, then you need to generate your own.
 
-Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
+- Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
 Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
 
-Design principles we adhere to here mirror the preprint:
+# Design principles we adhere to here mirror the preprint:
 
-Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
-σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
-Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
+- Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
+- σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
+- Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
 
 ## Deuterium (D I): scope, status, and how to run
 
-Scope in the preprint. Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
+# Scope in the preprint. 
+Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
 
 ## Policy in this repo. To keep the main results faithful to the preprint and to avoid confusion:
 
-D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
-For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
-We provide a D I micro‑sweep YAML and example commands below so others can explore; current outcomes should be treated as inconclusive. Inventory & per‑γ summaries are produced by the sweep machinery.
+- D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
+- For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
+- We provide a D I micro‑sweep YAML and example commands below so others can explore; current outcomes should be treated as inconclusive. Inventory & per‑γ summaries are produced by the sweep machinery.
 
 ## Quick start
 
@@ -154,28 +156,24 @@ python -m scripts.analysis_pipeline.build_resonance_inventory \
   --null_mode spacing --spacing_jitter_meV 0.0 \
   --n_iter 5000 --q_thresh 0.01 --dedup --enrich_hitpairs
 
-The parsers write provenance‑header CSVs and sidecar JSON with file hashes, thresholds, and QA plots. nist_levels_parser_v13 nist_lines_parser_v1 
-
-The sweep writes per‑γ hitpair files and a per‑ion summary (*_resonance_summary.txt + .json sidecar). build_resonance_inventory 
+- The parsers write provenance‑header CSVs and sidecar JSON with file hashes, thresholds, and QA plots.
+- The sweep writes per‑γ hitpair files and a per‑ion summary (*_resonance_summary.txt + .json sidecar). build_resonance_inventory 
 Dependencies (minimal): python>=3.10, numpy, pandas, matplotlib, scipy, statsmodels, pyyaml. (Parsers/sweeps import these directly.)
-
-nist_levels_parser_v13
-nist_lines_parser_v1
-run_resonance_sweep
 
 ## Data, provenance, and determinism
 
-Data source (NIST). We use only the “observed” dataset with standard NIST wavelength conventions (vacuum < 200 nm; air 200–2000 nm; vacuum > 2000 nm). Parsers preserve provenance, and overlay computations use NIST‑matched wavelengths (strict mode by default). (Preprint §2.1 and strict provenance footnote.) 
-
-Deterministic RNG. Permutation nulls seed deterministically as a function of (ion, σ, γ), enabling reproducible p/q values across runs and machines. σ resolves from sigma.json (or SIGMA env) via load_sigma.py. resonance_permutation_test load_sigma 
-
-Outputs with sidecars. Parsers emit .meta.json and QA; sweeps emit *_resonance_summary.txt + .json with links to tidy inputs and raw lineage. 
+# Data source (NIST). 
+We use only the “observed” dataset with standard NIST wavelength conventions (vacuum < 200 nm; air 200–2000 nm; vacuum > 2000 nm). Parsers preserve provenance, and overlay computations use NIST‑matched wavelengths (strict mode by default). (Preprint §2.1 and strict provenance footnote.) 
+# Deterministic RNG.
+Permutation nulls seed deterministically as a function of (ion, σ, γ), enabling reproducible p/q values across runs and machines. σ resolves from sigma.json (or SIGMA env) via load_sigma.py. resonance_permutation_test load_sigma 
+# Outputs with sidecars.
+Parsers emit .meta.json and QA; sweeps emit *_resonance_summary.txt + .json with links to tidy inputs and raw lineage. 
 
 ## How to run each stage
 
-0) Set σ (fine‑structure constant) once
+# 0) Set σ (fine‑structure constant) once
 
-# At repo root, ensure:
+At repo root, ensure:
 
 { "sigma": 0.0072973525693 }
 If sigma.json is missing, load_sigma.py will raise a friendly error; you may also override in terminal with export SIGMA=....
@@ -258,23 +256,19 @@ Examples:
   python -m scripts.analysis_pipeline.build_photon_gamma_ladders \
     --overlay data/meta/photon_overlay_mu-1.csv --gamma_bin 0.02 --min_hits 1
 
-# 6) "RGP Physics" v1 — χ–β plane fits (optional curvature). WIP
-
+# 6) "RGP Physics" v1 — χ–β plane fits (w/ optional curvature). WIP
 Script: scripts/analysis_pipeline/rgp_physics_v1.py
+This module operationalizes the Thread‑Frame (Def. D2) with β=log10α (Eq. 3) and returns the intercepts χ and tilt diagnostics used throughout the results; the quadratic term is included “locally, if AIC demands” (Eq. 2). 
 Inputs: a directory of *_photon_ladder.csv files (from build_photon_gamma_ladders.py); optional gamma_attractor_affinity_*.csv for p/q enrichment.
 
-Outputs:
+# Outputs:
 
-• rgp_v1_tower_fits.csv — per‑tower WLS fits: beta (slope), chi (intercept), theta_deg, rmse_log10_hz, coverage/weights, and—if enabled and justified—c_quad, mean_curv, torsion_index (see below).
-• rgp_v1_pairwise_maps.csv — Δβ, Δχ, Δθ, scale 10Δβ, mapped‑overlap RMSE/R², reliability flags, optional p/q.
-• rgp_v1_ion_summary.csv — weighted means and totals per ion (including share_curvature_needed).
-• rgp_v1_tower_coverage.csv — number of γ‑bins and total photon weight per (ion, ni ,nk).
+- rgp_v1_tower_fits.csv — per‑tower WLS fits: beta (slope), chi (intercept), theta_deg, rmse_log10_hz, coverage/weights, and—if enabled and justified—c_quad, mean_curv, torsion_index (see below).
+- rgp_v1_pairwise_maps.csv — Δβ, Δχ, Δθ, scale 10Δβ, mapped‑overlap RMSE/R², reliability flags, optional p/q.
+- rgp_v1_ion_summary.csv — weighted means and totals per ion (including share_curvature_needed).
+- rgp_v1_tower_coverage.csv — number of γ‑bins and total photon weight per (ion, ni ,nk).
 
-When curvature appears. Curvature fields (c_quad, mean_curv, torsion_index) are only non-zero if you pass --curvature, the tower has ≥ 3 γ-bins, and the quadratic beats linear by ΔAIC ≤ −2; otherwise the geometry is computed with c=0, so “curvature” will be 0/blank.
-
-Paper link. This module operationalizes the Thread-Frame fits used for slopes/intercepts (Defs. D2/Eqs. 2–3) in the preprint; microslopes (δ, θ) live in a separate tool (§ 5.2).
-
-CLI examples
+# CLI examples:
 
 # Linear-only (paper-aligned)
 python -m scripts.analysis_pipeline.rgp_physics_v1 \
@@ -288,11 +282,11 @@ python -m scripts.analysis_pipeline.rgp_physics_v1 \
   --curvature \
   --affinity data/meta/gamma_attractor_affinity_bio_vacuum_mu-1.csv
 
-How “curvature” works. If --curvature is set and a tower has ≥ 3 distinct γ‑bins, the script fits both linear and quadratic WLS and applies an AIC gate: use c only if ΔAIC≤−2. When the gate fails, geom_c is set to 0 and geometry‑derived fields like mean_curv become 0 (so a blank/zero “curvature” column is expected in many cases). Curvature and the derived torsion_index are exploratory and not required to reproduce the paper’s χ–β results. 
+# Curvature:
+(c_quad, mean_curv, torsion_index) are only non-zero if you pass --curvature, the tower has ≥ 3 γ-bins, and the quadratic beats linear by ΔAIC ≤ −2; otherwise the geometry is computed with c=0, so “curvature” will be 0/blank. If --curvature is set and a tower has ≥ 3 distinct γ‑bins, the script fits both linear and quadratic WLS and applies an AIC gate: use c only if ΔAIC≤−2. When the gate fails, geom_c is set to 0 and geometry‑derived fields like mean_curv become 0 (so a blank/zero “curvature” column is expected in many cases). Curvature and the derived torsion_index are exploratory and not required to reproduce the paper’s χ–β results.
 
-Reliability. Flags (fit_sparse_bins, fit_low_weight, fit_high_rmse, fit_curvature_needed) and a reliability_score help filter marginal towers and maps. Consider focusing on reliability_score ≥ 0.7 for summary plots. 
-
-Connection to the preprint. This module operationalizes the Thread‑Frame (Def. D2) with β=log10α (Eq. 3) and returns the intercepts χ and tilt diagnostics used throughout the results; the quadratic term is included “locally, if AIC demands” (Eq. 2). 
+# Reliability.
+Flags (fit_sparse_bins, fit_low_weight, fit_high_rmse, fit_curvature_needed) and a reliability_score help filter marginal towers and maps. Consider focusing on reliability_score ≥ 0.7 for summary plots. 
 
 # 7) (Optional) Intercepts & isotope mass checks
 
