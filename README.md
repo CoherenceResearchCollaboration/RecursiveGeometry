@@ -69,53 +69,9 @@ Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (m
 
 ---
 
-## Repository high-level layout
+## Repository layout
 
-├─ data/
-│ ├─ raw/ # NIST *_levels_raw.csv, *_lines_raw.csv (examples optional)
-│ ├─ tidy/ # tidy levels + tidy lines (+ .meta.json)
-│ ├─ meta/ # YAMLs for sweeps (e.g., bio_vacuum_mu-1.yaml, D_I.yaml)
-│ └─ results/ # sweep outputs, overlays, reports
-├─ scripts/
-│ ├─ preprocess/ # levels/lines parsers
-│ ├─ analysis_pipeline/
-│ └─ utils/
-├─ sigma.json
-└─ README.md
-
-## What this repo reproduces
-
-Non‑circular, two‑phase pipeline. (I) Build a recursion coordinate "γ" (gamma) using levels only; (II) only afterward overlay photons and analyze threads in the Thread Frame (γ, log₁₀ν). With slope locked by the frame (β ≈ log₁₀α), the physics lives in intercepts χ (mass/Z²/site transport) and local deviations (microslopes). Figures, tables, and methods are detailed in the preprint (esp. Introduction; Methods §3–4; Equations 1–7).
-
-## Scripts in this repo implement the critical steps:
-
-Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
-
-* Note: to make a quick check easier, we have provided raw and tidy levels and lines files for a small set of ions and one isotope. You can use the tidy files to build the gamma ladder, or you can process the raw files yourself (and/or download other raw files from NIST, which is exactly what we did for our paper).
-
-Levels‑only γ‑sweep with permutation‑null, adaptive tolerances, and FDR; inventory writer: build_resonance_inventory.py, run_resonance_sweep.py. NOTE: To build the gamma ladder, you must have you directory configured properly (as shown), but then you interact with only one script: build_resonance_inventory.py. This script calls all of the other scripts automatically. If you do not use the sigma.json file that we provided, then you need to generate your own.
-
-Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
-Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
-
-Design principles we adhere to here mirror the preprint:
-
-Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
-σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
-Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
-
-## Deuterium (D I): scope, status, and how to run
-
-Scope in the preprint. Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
-
-## Policy in this repo. To keep the main results faithful to the preprint and to avoid confusion:
-
-D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
-For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
-We provide a D I micro‑sweep YAML and example commands below so others can explore; current outcomes should be treated as inconclusive. Inventory & per‑γ summaries are produced by the sweep machinery.
-
-## Repository sprcific layout
-
+```text
 ├─ data/
 │  ├─ raw/
 │  │  ├─ levels/          # NIST *_levels_raw.csv (examples provided)
@@ -149,6 +105,38 @@ We provide a D I micro‑sweep YAML and example commands below so others can e
 │     └─ resonance_permutation_test.py  # permutation nulls
 ├─ sigma.json                           # default: { "sigma": 0.0072973525693 }
 └─ README.md                            # this file
+
+
+## What this repo reproduces
+
+Non‑circular, two‑phase pipeline. (I) Build a recursion coordinate "γ" (gamma) using levels only; (II) only afterward overlay photons and analyze threads in the Thread Frame (γ, log₁₀ν). With slope locked by the frame (β ≈ log₁₀α), the physics lives in intercepts χ (mass/Z²/site transport) and local deviations (microslopes). Figures, tables, and methods are detailed in the preprint (esp. Introduction; Methods §3–4; Equations 1–7).
+
+## Scripts in this repo implement the critical steps:
+
+Tidy parsers for NIST levels and lines with provenance sidecars and QA: nist_levels_parser_v13.py, nist_lines_parser_v1.py.
+
+* Note: to make a quick check easier, we have provided raw and tidy levels and lines files for a small set of ions and one isotope. You can use the tidy files to build the gamma ladder, or you can process the raw files yourself (and/or download other raw files from NIST, which is exactly what we did for our paper).
+
+Levels‑only γ‑sweep with permutation‑null, adaptive tolerances, and FDR; inventory writer: build_resonance_inventory.py, run_resonance_sweep.py. NOTE: To build the gamma ladder, you must have you directory configured properly (as shown), but then you interact with only one script: build_resonance_inventory.py. This script calls all of the other scripts automatically. If you do not use the sigma.json file that we provided, then you need to generate your own.
+
+Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
+Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
+
+Design principles we adhere to here mirror the preprint:
+
+Levels‑only discovery → photons post‑hoc, preventing circularity. (See Fig. 1 and §4.1.)
+σ‑locking and FDR control when sweeping γ; seeding is deterministic and tied to (ion, σ, γ). run_resonance_sweep 
+Strict frequency provenance: overlay uses NIST wavelength conventions (vacuum / air) and works off observed lines only. (Preprint §2.1; footnote on frequency provenance.)
+
+## Deuterium (D I): scope, status, and how to run
+
+Scope in the preprint. Deuterium (D I) was used solely for the isotope mass‑intercept test and was intentionally excluded from the core β‑slope/γ‑ladder summaries. In the present catalog coverage, D I is sparse: only one matched tower survived reliability gates in our run, so reference statistics were not computable; we labeled H↦D data‑limited and refrained from claims pending richer D I ladders (Table 5).
+
+## Policy in this repo. To keep the main results faithful to the preprint and to avoid confusion:
+
+D I is siloed to a dedicated tag (e.g., D_I_micro) and not included in the main β sweep.
+For the levels‑only γ step, we set mu: 1.0 (mass enters later in χ). This matches the study design where μ̂≡1 during γ discovery; reduced mass appears in intercept transport (§3.1, footnote; Eq. 4). KBHeaton_Recursive Geometry of … 
+We provide a D I micro‑sweep YAML and example commands below so others can explore; current outcomes should be treated as inconclusive. Inventory & per‑γ summaries are produced by the sweep machinery.
 
 ## Quick start
 
