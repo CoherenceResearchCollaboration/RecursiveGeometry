@@ -20,7 +20,7 @@ https://physics.nist.gov/PhysRefData/ASD/lines_form.html
 
 ## Purpose
 
-This repository provides a minimal, end-to-end set of **scripts, configs, and data pointers** to reproduce and audit the γ-ladder pipeline, photon overlay, and intercept/mass checks from our preprint, *Recursive Geometry of Atomic Spectra* (Heaton & The Coherence Research Collaboration, 2025).  
+This repository provides a minimal, end-to-end set of **scripts, configs, and data pointers** to reproduce and audit the γ-ladder pipeline, photon overlay, and intercept/mass checks from our preprint, *Recursive Geometry of Atomic Spectra* (Heaton & The Coherence Research Collaboration, 2025). Several visualization scripts are provided to see photon count vs. slope, gamma resonance by tower (no photons), and a heatmap of gamma resonance (no photons).
 Code is released **as-is** for scientific verification; this is **no-support mode**.
 
 ---
@@ -64,6 +64,9 @@ Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (m
 - `scripts/analysis_pipeline/build_photon_gamma_ladders.py` — organize photons into “towers”
 - `scripts/analysis_pipeline/rgp_physics_v1.py` — χ–β fits (linear core; curvature AIC-gated, WIP)
 - `scripts/analysis_pipeline/rgp_mass_estimator.py` — mass intercept tests (hydrogenic collapse, isotopes; WIP)
+- `scripts/views/plot_gamma_affinity_heatmap_matrix.py` — gamma-resonance heatmap (levels only)
+- `scripts/views/plot_gamma_ladder_views.py` — gamma-resonance by quantum "tower" (levels only)
+- `scripts/views/viz_all-ion_photon-decay_no-tower.py` — photon count vs. slope (levels + photons)
 - `scripts/utils/constants.py` — α, α² targets, canonical columns
 - `scripts/utils/load_sigma.py` — **read** σ from `sigma.json` / `SIGMA`
 - `scripts/utils/set_sigma.py` — **write** σ to `sigma.json` (CLI)
@@ -99,15 +102,19 @@ Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (m
 │  │  ├─ build_photon_gamma_ladders.py  # organize the data by quantum "tower"
 │  │  ├─ rgp_mass_estimator.py          # research with mass intercept calculations (WIP)
 │  │  └─ rgp_physics_v1.py              # χ–β plane fits (optional curvature WIP)
-│  └─ utils/
-│     ├─ constants.py                   # α, α² targets, column map
-│     ├─ set_sigma.py                   # write σ (sigma.json/ENV)
-│     ├─ load_sigma.py                  # read σ (sigma.json/ENV)
-│     ├─ path_config.py                 # path registry (tag → folders)
-│     ├─ provenance.py                  # provenance writers (hashes, thresholds, metadata)
-│     ├─ io_helpers.py                  # CSV/Parquet I/O helpers
-│     ├─ run_resonance_sweep.py         # γ loop, write hitpairs
-│     └─ resonance_permutation_test.py  # permutation nulls
+│  ├─ utils/
+│  │  ├─ constants.py                   # α, α² targets, column map
+│  │  ├─ set_sigma.py                   # write σ (sigma.json/ENV)
+│  │  ├─ load_sigma.py                  # read σ (sigma.json/ENV)
+│  │  ├─ path_config.py                 # path registry (tag → folders)
+│  │  ├─ provenance.py                  # provenance writers (hashes, thresholds, metadata)
+│  │  ├─ io_helpers.py                  # CSV/Parquet I/O helpers
+│  │  ├─ run_resonance_sweep.py         # γ loop, write hitpairs
+│  │  └─ resonance_permutation_test.py  # permutation nulls
+│  └─ views/
+│     ├─ plot_gamma_affinity_heatmap_matrix.py        # heatmap of gamma-resonant levels
+│     ├─ plot_gamma_ladder_views.py                   # plot gamma-resonant levels by quantum tower
+│     └─ viz_all-ion_photon-decay_no-tower.py         # plot photons by count (no pattern) vs. frequency (pattern)
 ├─ sigma.json                           # default: { "sigma": 0.0072973525693 }
 └─ README.md                            # this file
 ```
@@ -122,6 +129,8 @@ Note: to make a quick check easier, we have provided raw and tidy levels and lin
 
 - Deterministic randomness and σ access (sigma.json or SIGMA env): load_sigma.py. load_sigma 
 Note: Constants include CODATA α and the α² Rydberg target helper (alpha2_target) that underlies the γ‑ladder target spacings.
+
+Select visualization scripts are provided so you can see your results.
 
 The design principles we adhere to in this repo intentionally mirror the preprint:
 
@@ -208,10 +217,11 @@ This step is post‑hoc: photons are not used to define γ (non‑circularity). 
 
 Build the affinity map (one row per `(ion, gamma_bin)`):
 
-(bash)
+```bash
 python -m scripts.analysis_pipeline.build_attractor_affinity --tag <TAG>
 Example:
 python -m scripts.analysis_pipeline.build_attractor_affinity --tag D_I_micro
+```
 
 Outputs: per‑ion photon γ‑ladders indexed by (ion, tower (nᵢ,nₖ), γ) that drive thread fits, intercepts, and local microslopes (§4–5).
 
@@ -327,6 +337,56 @@ python -m scripts.analysis_pipeline.build_resonance_inventory \
   --null_mode spacing --spacing_jitter_meV 0.0 \
   --n_iter 10000 --q_thresh 0.01 --dedup \
   --enrich_hitpairs
+
+## 8) Visualization scripts
+Two of the scripts are for gamma-resonant levels (no photons):
+- `scripts/views/plot_gamma_affinity_heatmap_matrix.py` — gamma-resonance heatmap (levels only)
+- `scripts/views/plot_gamma_ladder_views.py` — gamma-resonance by quantum "tower" (levels only)
+One script visualizes levels and photons:
+- `scripts/views/viz_all-ion_photon-decay_no-tower.py` — photon count vs. slope (levels + photons)
+
+# Visualization: γ-Attractor Affinity Heatmap
+
+We also provide a script to **visualize γ-resonance affinity as a heatmap**,  
+where each cell shows the resonance strength (obs_hits) for an (ion, γ) pair.
+
+Run:
+
+```bash
+python -m scripts.views.cross_ion.plot_gamma_affinity_heatmap_matrix \
+  --sort_mode cluster
+```
+
+# Visualization: Cross-Ion Photon Decay (No Towers)
+
+We provide a helper script to **visualize the universal slope β ≈ log₁₀α across ions**,  
+without tower grouping. This makes the γ–ν relationship visible at a glance.
+
+Run:
+
+```bash
+python -m scripts.views.cross_ion.viz_all-ion_photon-decay_no-tower \
+  --input-dir data/results/photon_matched_resonant_pairs_mu-1/ \
+  --output-dir data/results/plots/viz_all-ion_photon-decay_no-tower/ \
+  --export-csv
+  ```
+
+# Visualization: γ-Ladder Tower Views
+
+We provide a script to **visualize photon ladders by tower (nᵢ, nₖ)** in two orientations:
+
+- **Rotated view** (x = nₖ, y = γ): “looking into” the γ-sheet.  
+- **Original view** (x = γ, y = nₖ): conventional ladder portrait.
+
+Run:
+
+```bash
+python -m scripts.views.ion_identity.plot_gamma_ladder_views \
+  --ladders H_I:data/meta/ion_photon_ladders_mu-1/H_I_photon_ladder.csv \
+  --ni 4 \
+  --out  data/results/plots/gamma_levels_by-tower/H_I_4_gamma_vs_nk_grid.png \
+  --marker x --cmap viridis
+```
 
 # To cite this work:
 
