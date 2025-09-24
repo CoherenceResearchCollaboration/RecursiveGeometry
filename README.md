@@ -13,8 +13,8 @@
 > **Note:** To reproduce the γ-ladder, you’ll need basic Python skills. 
 Consumer hardware is fine (this work was done on a 4-year-old M1 Mac using Terminal).
 Source data are public at NIST: 
-> https://physics.nist.gov/PhysRefData/ASD/levels_form.html
-> https://physics.nist.gov/PhysRefData/ASD/lines_form.html
+https://physics.nist.gov/PhysRefData/ASD/levels_form.html
+https://physics.nist.gov/PhysRefData/ASD/lines_form.html
 
 ---
 
