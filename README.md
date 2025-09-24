@@ -5,12 +5,16 @@
 [![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
 
-**Preprint:** https://zenodo.org/records/17167687  
+**Latest preprint:** [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687)  
+**This version (v2):** [10.5281/zenodo.17188444](https://doi.org/10.5281/zenodo.17188444)  
 **Narrative:** https://www.thecoherencecode.com  
 **Kelly Heaton:** https://www.linkedin.com/in/kelly-heaton-studio/
 
-> **Note:** To reproduce the γ-ladder, you’ll need basic Python skills. This work was done on a 4-year-old M1 Mac using Terminal. Source data are public at NIST:  
-> https://physics.nist.gov/PhysRefData/ASD/ionEnergy.html
+> **Note:** To reproduce the γ-ladder, you’ll need basic Python skills. 
+Consumer hardware is fine (this work was done on a 4-year-old M1 Mac using Terminal).
+Source data are public at NIST: 
+> https://physics.nist.gov/PhysRefData/ASD/levels_form.html
+> https://physics.nist.gov/PhysRefData/ASD/lines_form.html
 
 ---
 
