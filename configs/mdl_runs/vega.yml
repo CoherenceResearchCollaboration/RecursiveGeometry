@@ -1,0 +1,12 @@
+dataset: "Vega (ELODIE photons)"
+events_csv: "results/stars/raw_csv/vega_all_photons.csv"
+outdir: "results/stars/mdla"
+label: "vega_elodie_all"
+series_name: "Vega (ELODIE, photons)"
+grid: 0.002
+kmax: 1.70
+beta_list: "alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00"
+nulls: 1
+null_beta: "alpha"
+null_windows: 50
+legend_loc: "upper right"

@@ -1,0 +1,12 @@
+dataset: "Sun (FluxAtlas photons)"
+events_csv: "results/solar/raw_csv/fluxatl_all_events.csv"
+outdir: "results/solar/mdla"
+label: "sun_fluxatl_all"
+series_name: "Sun (FluxAtlas, photons)"
+grid: 0.002
+kmax: 1.70
+beta_list: "alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00"
+nulls: 1
+null_beta: "alpha"
+null_windows: 50
+legend_loc: "center right"

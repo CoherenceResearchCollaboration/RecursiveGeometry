@@ -1,0 +1,12 @@
+dataset: "Hg II (Ritz, vacuum)"
+events_csv: "results/lamps/raw_csv/hg_II_ritz_vac.csv"
+outdir: "results/lamps/mdla/hg_II_ritz_vac"
+label: "hg_II_ritz_vac"
+series_name: "Hg II (Ritz, vacuum)"
+grid: 0.002
+kmax: 1.70
+beta_list: "alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00"
+nulls: 1
+null_beta: "alpha"
+null_windows: 50
+legend_loc: "center right"
