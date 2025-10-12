@@ -1,4 +1,6 @@
 # 🧮 Recursive Geometry – MDL Extension
+[📄 Preprint PDF (v1.0)](preprint/KBHeaton_Information_Theoretic_Confirmation_MDLSlope_2025.pdf)  
+DOI: [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815)
 
 ### *Information-Theoretic Confirmation of the α-Affine Thread Frame*
 
