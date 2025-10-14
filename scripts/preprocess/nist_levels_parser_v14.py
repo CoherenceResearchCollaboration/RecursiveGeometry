@@ -1,6 +1,7 @@
 #!/usr/bin/env python3
 """
-nist_levels_parser_v13.py — Upgraded NIST *levels* → tidy levels
+nist_levels_parser_v14.py — Upgraded NIST *levels* → tidy levels
+This version fixes a bug that was erroneously assigning huge quantum number values to certain ions like Fe II.
 
 ────────────────────────────────────────────────────────────────
 RGP pipeline (Kelly Heaton & The Coherence Research Collective)
@@ -22,10 +23,12 @@ Key properties (contract):
 
 CLI
 ---
-python -m scripts.preprocess.nist_levels_parser_v13 [--ion H_I|Fe_II|...] [--rebuild]
+python -m scripts.preprocess.nist_levels_parser_v14 [--ion H_I|Fe_II|...] [--rebuild]
     If --ion omitted, processes all RAW_LEVELS_DIR/*_levels_raw.csv
 
-python -m scripts.preprocess.nist_levels_parser_v13 --ion O_III
+python -m scripts.preprocess.nist_levels_parser_v14 --ion O_III
+
+python -m scripts.preprocess.nist_levels_parser_v14 --ion Fe_II --rebuild
 
 Outputs
 -------
@@ -353,13 +356,40 @@ def parse_one_raw_levels(raw_path: Path, gamma_bin: float = 0.02, mu: float = 1.
     levels["config_contains_species_label"] = levels["Configuration"].astype(str).str.match(_species_cfg_pattern)
     levels["incomplete"] = levels["is_centroid_like"]  # conservative
 
-    # n parsing (honest): prefer Term, else Configuration; mark inferred
-    n_from_term = levels["Term"].apply(principal_qn)
-    n_from_cfg  = levels["Configuration"].apply(principal_qn)
-    levels["n"] = n_from_term.where(~n_from_term.isna(), n_from_cfg)
-    levels["n_inferred"] = ~levels["n"].isna()
-    levels["n_source"] = np.where(~n_from_term.isna(), "term",
-                           np.where(~n_from_cfg.isna(), "config", "none"))
+    # n parsing — robust to Fe II "numeric Term" placeholders that are actually wavenumbers.
+    # Strategy:
+    #   1) Parse candidate n from Term and Configuration via principal_qn (spectroscopic labels).
+    #   2) If Term is numeric-only AND ~equal to Level_cm1 (placeholder), discard Term-derived n.
+    #   3) Prefer Term (if valid), else Configuration; then sanity-clamp 1..400.
+    term_str = levels["Term"].astype(str)
+    cfg_str  = levels["Configuration"].astype(str)
+
+    n_from_term = term_str.apply(principal_qn)
+    n_from_cfg  = cfg_str.apply(principal_qn)
+
+    # Detect numeric-only Term strings like "114673.6" that mirror Level_cm1 rows.
+    term_is_numeric = term_str.str.match(r"^\s*\d+(\.\d+)?\s*$")
+    term_num = pd.to_numeric(term_str.where(term_is_numeric), errors="coerce")
+    # treat as placeholder when it's effectively the same as Level_cm1 (within ~2 cm^-1)
+    close_to_level = (
+        term_is_numeric &
+        term_num.notna() &
+        levels["Level_cm1"].notna() &
+        (term_num.sub(levels["Level_cm1"]).abs() <= 2.0)
+    )
+    # Invalidate Term-derived n for those placeholder rows
+    n_from_term = n_from_term.mask(close_to_level, np.nan)
+
+    # Prefer Term (if valid), else Configuration
+    n = n_from_term.where(~n_from_term.isna(), n_from_cfg)
+
+    # Sanity clamp: physically meaningful principal n range (soft guard)
+    n = n.where((n >= 1) & (n <= 400))
+
+    levels["n"] = n
+    levels["n_inferred"] = levels["n"].notna()
+    levels["n_source"] = np.where(levels["n"].notna() & n_from_term.notna(), "term",
+                           np.where(levels["n"].notna() & n_from_cfg.notna(), "config", "none"))
     levels.loc[levels["n_source"] == "none", "n_inferred"] = False
 
     # Sort by energy (stable) and assign Level_ID
