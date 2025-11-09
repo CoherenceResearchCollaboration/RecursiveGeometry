@@ -17,8 +17,6 @@ This repository unifies all open-source research software and data pipelines for
 | *Information-Theoretic Confirmation of the α-Affine Thread Frame* | [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815) | MDL validation of the universal slope β≈log₁₀α |
 | *A Local Electromagnetic Wave Equation from Spectral Geometry* | [10.5281/zenodo.17402933](https://doi.org/10.5281/zenodo.17402933) | Maxwellian verification / Radiocode implementation — see [README_ELECTROMAG.md](README_ELECTROMAG.md) |
 
-For detailed instructions and datasets related to the electromagnetic verification, see [README_ELECTROMAG.md](README_ELECTROMAG.md).
-
 ---
 
 **Latest preprint:** [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687)  
