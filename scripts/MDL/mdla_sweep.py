@@ -1,72 +1,86 @@
 #!/usr/bin/env python3
 """
 🌞 For the Sun (FluxAtlas) dataset
-PYTHONPATH=. python -m scripts.MDL.mdla_sweep \
-  --events-csv results/solar/raw_csv/fluxatl_all_events.csv \
-  --outdir results/solar/mdla \
+python -m scripts.analysis_pipeline.mdla_sweep \
+  --events-csv MDLA_results/solar/raw_csv/fluxatl_all_events.csv \
+  --outdir MDLA_results/solar/mdla \
   --label sun_fluxatl_all \
   --series-name "Sun (FluxAtlas, photons)" \
-  --grid 0.002 --kmax 1.70 \
-  --beta-list 'alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00' \
-  --nulls 1 --null-beta alpha --null-windows 50
+  --grid 0.002 \
+  --kmax 1.70 \
+  --two-stage \
+  --beta-min -2.45 --beta-max -1.95 --beta-step 0.01 \
+  --refine-win 0.06 --refine-step 0.001
+  --nulls 1 --null-beta alpha --null-windows 50 \
+  --legend-loc 'center right'
 
 🌟 For the Vega (ELODIE) dataset
-PYTHONPATH=. python -m scripts.MDL.mdla_sweep \
-  --events-csv results/stars/raw_csv/vega_all_photons.csv \
-  --outdir results/stars/mdla \
+python -m scripts.analysis_pipeline.mdla_sweep \
+  --events-csv MDLA_results/stars/raw_csv/vega_all_photons.csv \
+  --outdir MDLA_results/stars/mdla \
   --label vega_elodie_all \
   --series-name "Vega (ELODIE, photons)" \
   --grid 0.002 \
   --kmax 1.70 \
-  --beta-list 'alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00' \
+  --two-stage \
+  --beta-min -2.45 --beta-max -1.95 --beta-step 0.01 \
+  --refine-win 0.06 --refine-step 0.001
   --nulls 1 --null-beta alpha --null-windows 50 \
   --legend-loc 'upper right'
 
 Neon (lamp):
 
-PYTHONPATH=. python -m scripts.MDL.mdla_sweep \
-  --events-csv results/lamps/raw_csv/neon_neI_ritz_vac.csv \
-  --outdir      results/lamps/mdla/neon_neI_ritz_vac \
+python -m scripts.analysis_pipeline.mdla_sweep \
+  --events-csv MDLA_results/lamps/raw_csv/neon_neI_ritz_vac.csv \
+  --outdir      MDLA_results/lamps/mdla/neon_neI_ritz_vac \
   --label       neon_neI_ritz_vac \
   --series-name "Ne I (Ritz, vacuum)" \
   --grid 0.002 \
   --kmax 1.70 \
-  --beta-list 'alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00' \
+  --two-stage \
+  --beta-min -2.45 --beta-max -1.95 --beta-step 0.01 \
+  --refine-win 0.06 --refine-step 0.001
   --nulls 1 --null-beta alpha --null-windows 50 \
   --legend-loc 'center right'
 
 
 # Na I (Ritz, vacuum)
-PYTHONPATH=. python -m scripts.MDL.mdla_sweep \
-  --events-csv results/lamps/raw_csv/na_I_ritz_vac.csv \
-  --outdir      results/lamps/mdla/na_I_ritz_vac \
+python -m scripts.analysis_pipeline.mdla_sweep \
+  --events-csv MDLA_results/lamps/raw_csv/na_I_ritz_vac.csv \
+  --outdir      MDLA_results/lamps/mdla/na_I_ritz_vac \
   --label       na_I_ritz_vac \
   --series-name "Na I (Ritz, vacuum)" \
   --grid 0.002 --kmax 1.70 \
-  --beta-list 'alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00' \
+  --two-stage \
+  --beta-min -2.45 --beta-max -1.95 --beta-step 0.01 \
+  --refine-win 0.06 --refine-step 0.001
   --nulls 1 --null-beta alpha --null-windows 50 \
   --legend-loc 'center right'
 
 # Hg II (Ritz, vacuum)
-PYTHONPATH=. python -m scripts.MDL.mdla_sweep \
-  --events-csv results/lamps/raw_csv/hg_II_ritz_vac.csv \
-  --outdir      results/lamps/mdla/hg_II_ritz_vac \
+python -m scripts.analysis_pipeline.mdla_sweep \
+  --events-csv MDLA_results/lamps/raw_csv/hg_II_ritz_vac.csv \
+  --outdir      MDLA_results/lamps/mdla/hg_II_ritz_vac \
   --label       hg_II_ritz_vac \
   --series-name "Hg II (Ritz, vacuum)" \
   --grid 0.002 --kmax 1.70 \
-  --beta-list 'alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00' \
+  --two-stage \
+  --beta-min -2.45 --beta-max -1.95 --beta-step 0.01 \
+  --refine-win 0.06 --refine-step 0.001
   --nulls 1 --null-beta alpha --null-windows 50 \
   --legend-loc 'center right'
 
 Molecule: C2 swan (no adapter step required)
 
-PYTHONPATH=. python -m scripts.MDL.mdla_sweep \
-  --events-csv data/molecules/C2_Swan_visible.csv \
-  --outdir      results/molecules/mdla/C2_Swan_visible \
+python -m scripts.analysis_pipeline.mdla_sweep \
+  --events-csv MDLA_results/molecules/raw_csv/C2_Swan_visible.csv \
+  --outdir      MDLA_results/molecules/mdla/C2_Swan_visible \
   --label       C2_Swan_visible \
   --series-name "C₂ Swan bands (visible)" \
   --grid 0.002 --kmax 1.70 \
-  --beta-list 'alpha,log10(1/128),log10(1/e),log10(1/phi),-2.40,-2.30,-2.10,-2.00' \
+  --two-stage \
+  --beta-min -2.45 --beta-max -1.95 --beta-step 0.01 \
+  --refine-win 0.06 --refine-step 0.001
   --nulls 1 --null-beta alpha --null-windows 50 \
   --legend-loc 'center right'
 
@@ -78,13 +92,80 @@ from pathlib import Path
 import pandas as pd, matplotlib.pyplot as plt, numpy as np
 
 def code_length_bernoulli(n, k):
-    # fast approx: Stirling for log2(n choose k) + Bernoulli part
-    # exact is fine too for n<=5000; here we do exact via Python math.comb if available.
+    # Bernoulli plug-in code (bits), as in paper Methods §4.4
+    k = max(0, min(int(k), int(n)))
+    if n <= 0:
+        return float("inf")
+    p = max(1e-12, min(1 - 1e-12, k / float(n)))
+    return (-k * math.log2(p) - (n - k) * math.log2(1 - p))
+
+def code_length_enumerative(n, k):
     from math import comb, log2
-    k = max(0, min(k, n))
-    p = max(1e-6, min(1-1e-6, k/float(n)))
-    logC = log2(comb(n,k)) if 0 <= k <= n else float("inf")
-    return logC + (-k*math.log2(p) - (n-k)*math.log2(1-p))
+    if not (0 <= k <= n):
+        return float("inf")
+    return log2(comb(int(n), int(k)))
+
+# Helper
+def _count_support_unique(dfb: pd.DataFrame, col: str, N: int):
+    present = dfb.loc[dfb.get("present",1)>0, col].astype(int).to_numpy()
+    sel = present[(present >= 0) & (present <= N)]
+    if sel.size == 0:
+        return 0, -1, -1, 0
+    u = np.unique(sel)
+    first_bin = int(u.min())
+    last_bin  = int(u.max())
+    N_eff     = max(0, min(N, last_bin - first_bin + 1))
+    K_uniq    = int(u.size)
+    return N_eff, first_bin, last_bin, K_uniq
+
+def _sweep_beta_list(beta_values, label_tag, args, outdir, N):
+    rows = []
+    for b in beta_values:
+        tmpdir = Path(tempfile.mkdtemp())
+        subprocess.check_call([
+            "python", "-m", "scripts.analysis_pipeline.threadlaw_photoncode",
+            "--label", args.label,
+            "--csv", args.events_csv,
+            "--outdir", str(tmpdir),
+            "--grid", str(args.grid),
+            "--beta-override", str(b)
+        ])
+        bc = (tmpdir / args.label / "barcode_dense.csv")
+        if not bc.exists():
+            cand = list((tmpdir/args.label).glob("*barcode_dense*.csv"))
+            if not cand:
+                raise SystemExit(f"barcode_dense not found under {tmpdir/args.label}")
+            bc = cand[0]
+
+        dfb = pd.read_csv(bc)
+        col = ("kappa_int_rel" if "kappa_int_rel" in dfb.columns
+               else "kappa_int" if "kappa_int" in dfb.columns
+               else None)
+        if col is None:
+            raise SystemExit("no kappa_int/_rel column in barcode_dense")
+
+        # Paper-consistent occupancy: K out of fixed N bins in [0..N]
+        present = dfb.loc[dfb.get("present", 1) > 0, col].astype(int)
+        sel = present[(present >= 0) & (present <= N)].to_numpy()
+        K = int(np.unique(sel).size)  # unique occupied bins
+        L_bits = code_length_bernoulli(N, K)
+
+        rows.append({
+            "beta": b, "N": N, "K": K, "L_bits": L_bits
+        })
+
+    # write stage csv (MUST include the new columns)
+    tag = f"mdl_sweep_{label_tag}.csv"
+    with open(outdir / tag, "w", newline="") as f:
+        w = csv.DictWriter(f, fieldnames=["beta","N","N_eff","first_bin","last_bin","K","L_bits"])
+        w.writeheader(); w.writerows(rows)
+
+    # choose best, skipping any +inf rows
+    finite_rows = [r for r in rows if math.isfinite(r["L_bits"])]
+    best = min(finite_rows, key=lambda r: r["L_bits"]) if finite_rows else {"beta": None}
+    Path(outdir / f"mdl_best_{label_tag}.json").write_text(json.dumps(best, indent=2))
+    return rows, best
+
 
 def main():
     ap = argparse.ArgumentParser()
@@ -112,6 +193,20 @@ def main():
                          "Accepts tokens like 'alpha', 'log10(1/128)', 'log10(1/e)'.")
     ap.add_argument("--null-windows", type=int, default=50,
                     help="Number of κ windows for density-preserving bookkeeping (kept for provenance).")
+
+    ap.add_argument("--two-stage", action="store_true",
+                    help="Use a two-stage uniform sweep: global coarse then fixed local refinement.")
+    ap.add_argument("--beta-min", type=float, default=-2.40,
+                    help="Global sweep: min beta (default -2.40).")
+    ap.add_argument("--beta-max", type=float, default=-2.00,
+                    help="Global sweep: max beta (default -2.00).")
+    ap.add_argument("--beta-step", type=float, default=0.01,
+                    help="Global sweep: step (default 0.01).")
+    ap.add_argument("--refine-win", type=float, default=0.05,
+                    help="Refine sweep: half-width window around beta*_coarse (default 0.05).")
+    ap.add_argument("--refine-step", type=float, default=0.001,
+                    help="Refine sweep: step (default 0.001).")
+
     args = ap.parse_args()
 
     # ---------- utilities ----------
@@ -169,58 +264,75 @@ def main():
     # Force physical sign: if someone passed a positive β, flip to its negative magnitude
     beta_list = [(-abs(b)) for b in beta_list]
 
-    # MDL sweep
-    rows=[]
+    # ===== Two-stage sweep (global coarse -> fixed local refine), or legacy single-stage =====
+    rows = []
     N = int(round(args.kmax/args.grid))  # bins in 0..kmax
-    for b in beta_list:
-        tmpdir = Path(tempfile.mkdtemp())
-        # build barcode at beta b
-        subprocess.check_call([
-            "python","-m","scripts.MDL.threadlaw_photoncode",
-            "--label", args.label,
-            "--csv", args.events_csv,
-            "--outdir", str(tmpdir),
-            "--grid", str(args.grid),
-            "--beta-override", str(b)
-        ])
-        # threadlaw_photoncode writes under <tmp>/<label>/barcode_dense.csv
-        bc = (tmpdir / args.label / "barcode_dense.csv")
-        if not bc.exists():
-            # fallback: any *barcode_dense*.csv under the label dir
-            cand = list((tmpdir / args.label).glob("*barcode_dense*.csv"))
-            if not cand:
-                raise SystemExit(f"barcode_dense not found under {tmpdir/args.label}")
-            bc = cand[0]
-        # count ones within 0..kmax
-        import pandas as pd
-        df = pd.read_csv(bc)
-        col = ("kappa_int_rel" if "kappa_int_rel" in df.columns
-               else "kappa_int" if "kappa_int" in df.columns
-               else None)
-        if col is None: raise SystemExit("no kappa_int/_rel column in barcode_dense")
-        present = df.loc[df.get("present",1)>0, col].astype(int)
-        sel = present[(present>=0) & (present<=N)].to_numpy()
-        k = int(sel.size)
-        L = code_length_bernoulli(N, k)
-        # build a dense 0/1 vector over 0..N for diagnostics
-        bits = np.zeros(N+1, dtype=int)
-        bits[sel] = 1
-        diag_edge = edge_concentration(sel, N, tail_bins=10)
-        diag_run  = longest_run_ones(bits)
-        rows.append({"beta": b, "N": N, "K": k, "L_bits": L,
-                     "edge_conc_last10": diag_edge, "runlen_max": diag_run})
-        # stash optional artifact
-        (outdir / f"beta_{b:+.6f}_K{k}.txt").write_text(json.dumps({"beta":b,"K":k,"N":N,"L_bits":L}, indent=2))
 
-    # write sweep CSV
-    with open(outdir/"mdl_sweep.csv","w",newline="") as f:
-        w=csv.DictWriter(f, fieldnames=["beta","N","K","L_bits","edge_conc_last10","runlen_max"])
-        w.writeheader(); w.writerows(rows)
+    if args.two_stage:
+        # Stage 1: global coarse grid [-2.40, -2.00] with step 0.01
+        coarse = np.arange(args.beta_min, args.beta_max + 1e-12, args.beta_step)
+        coarse = [(-abs(b)) for b in coarse]  # enforce β<0
+        rows_coarse, best_coarse = _sweep_beta_list(coarse, "coarse", args, outdir, N)
 
-    # identify argmin
-    best = min(rows, key=lambda r: r["L_bits"])
-    Path(outdir/"mdl_best.json").write_text(json.dumps(best, indent=2))
-    print(json.dumps({"best":best, "out":str(outdir/"mdl_sweep.csv")}, indent=2))
+        # Stage 2: symmetric refinement ±refine_win around coarse best, step refine_step
+        b0 = float(best_coarse["beta"])
+        lo_nom = max(args.beta_min, b0 - args.refine_win)
+        hi_nom = min(args.beta_max, b0 + args.refine_win)
+        refine = np.arange(lo_nom, hi_nom + 1e-12, args.refine_step)
+
+        # Always include a dense micro-grid around log10(1/α)
+        beta_alpha = math.log10(1/137.035999084)
+        micro_lo = max(args.beta_min,  beta_alpha - 0.03)
+        micro_hi = min(args.beta_max,  beta_alpha + 0.03)
+        micro    = np.arange(micro_lo, micro_hi + 1e-12, args.refine_step)
+
+        # Union, sort, and quantize to a stable key to avoid float-dup glitches
+        refine = np.unique(np.concatenate([refine, micro]))
+        refine = np.round(refine, 9)  # 9–12 dp is plenty for 0.001 steps
+
+        rows_refine, best_refine = _sweep_beta_list(refine, "refine", args, outdir, N)
+
+        # Merge unique betas and write the canonical sweep CSV
+        df_coarse  = pd.DataFrame(rows_coarse)
+        df_refine  = pd.DataFrame(rows_refine)
+
+        df_merged = pd.concat([df_coarse, df_refine], ignore_index=True)
+        df_merged["beta_key"] = df_merged["beta"].round(9)  # stable duplicate key
+        df_merged = (df_merged
+                     .sort_values("beta_key")
+                     .drop_duplicates(subset=["beta_key"], keep="last")
+                     .drop(columns=["beta_key"])
+                     .sort_values("beta")
+                    )
+
+        df_merged.to_csv(outdir/"mdl_sweep.csv", index=False)
+        Path(outdir/"mdl_best.json").write_text(json.dumps(best_refine, indent=2))
+
+        # Make rows available to downstream windows/bandsplit blocks
+        rows = df_merged.to_dict("records")
+
+        # Flag boundary-limited refinement (for reproducibility reports)
+        boundary_limited = (abs(b0 - lo_nom) <= 2*args.refine_step) or (abs(hi_nom - b0) <= 2*args.refine_step)
+        if boundary_limited:
+            Path(outdir/"mdl_flags.json").write_text(json.dumps({"boundary_limited": True}, indent=2))
+
+        # Use the merged β grid later (nulls, plotting)
+        beta_list_for_null = df_merged["beta"].tolist()
+
+        print(json.dumps({"best": best_refine, "out": str(outdir/"mdl_sweep.csv")}, indent=2))
+
+    else:
+        # Legacy single-stage path: use the explicit beta_list you resolved earlier
+        rows_legacy, best_legacy = _sweep_beta_list(beta_list, "legacy", args, outdir, N)
+        df_legacy = pd.DataFrame(rows_legacy).sort_values("beta")
+        df_legacy.to_csv(outdir/"mdl_sweep.csv", index=False)
+        Path(outdir/"mdl_best.json").write_text(json.dumps(best_legacy, indent=2))
+
+        rows = df_legacy.to_dict("records")
+        beta_list_for_null = df_legacy["beta"].tolist()
+
+        print(json.dumps({"best": best_legacy, "out": str(outdir/"mdl_sweep.csv")}, indent=2))
+
 
     # ---------- simple outlier report (2nd–98th percentile band) ----------
     try:
@@ -230,8 +342,9 @@ def main():
             ylo, yhi = np.nanpercentile(y, 2), np.nanpercentile(y, 98)
             mask_out = (y < ylo) | (y > yhi)
             if mask_out.any():
-                df_all.loc[mask_out, ["beta","N","K","L_bits","edge_conc_last10","runlen_max"]].to_csv(
-                    outdir/"mdl_outliers.csv", index=False)
+                cols = [c for c in ["beta","N","N_eff","K","L_bits"] if c in df_all.columns]
+                df_all.loc[mask_out, cols].to_csv(outdir/"mdl_outliers.csv", index=False)
+
     except Exception:
         pass
 
@@ -250,7 +363,7 @@ def main():
             # rebuild barcode at this beta (cheap + robust provenance)
             tmpdir = Path(tempfile.mkdtemp())
             subprocess.check_call([
-                "python","-m","scripts.MDL.threadlaw_photoncode",
+                "python","-m","scripts.analysis_pipeline.threadlaw_photoncode",
                 "--label", args.label, "--csv", args.events_csv, "--outdir", str(tmpdir),
                 "--grid", str(args.grid), "--beta-override", str(b)
             ])
@@ -264,16 +377,34 @@ def main():
             for (fa, fb) in win_specs:
                 i0 = int(round(fa * N_full))
                 i1 = int(round(fb * N_full))
-                idx = present[(present>=i0) & (present<=i1)]
+
+                idx = present[(present >= i0) & (present <= i1)]
                 Nw  = max(0, i1 - i0 + 1)
-                Kw  = int(idx.size)
-                Lw  = code_length_bernoulli(Nw, Kw) if Nw>0 else float("nan")
-                out_rows.append({"beta": b, "win": f"{fa:.2f}-{fb:.2f}",
-                                 "N_win": Nw, "K_win": Kw, "L_bits_win": Lw})
+
+                if idx.size == 0:
+                    firstw, lastw, Kw_uniq = -1, -1, 0
+                else:
+                    u       = np.unique(idx)
+                    firstw  = int(u.min())
+                    lastw   = int(u.max())
+                    Kw_uniq = int(u.size)
+
+                # Paper-consistent: encode K unique bins in a fixed window of size Nw
+                Lw     = code_length_bernoulli(Nw, Kw_uniq) if Nw > 0 else 0.0
+                Nw_eff = Nw  # keep the column for continuity; equal to fixed window size
+
+                out_rows.append({
+                    "beta": b, "win": f"{fa:.2f}-{fb:.2f}",
+                    "N_win": Nw, "N_win_eff": Nw_eff,
+                    "first_win_bin": firstw, "last_win_bin": lastw,
+                    "K_win": Kw_uniq, "L_bits_win": Lw
+                })
 
         with open(outdir/"mdl_windowed.csv","w",newline="") as f:
-            w = csv.DictWriter(f, fieldnames=["beta","win","N_win","K_win","L_bits_win"])
+            cols = sorted({k for r in out_rows for k in r.keys()})
+            w = csv.DictWriter(f, fieldnames=sorted({k for r in out_rows for k in r.keys()}), extrasaction="ignore")
             w.writeheader(); w.writerows(out_rows)
+
     except Exception as e:
         print(f"[WARN] windowed MDL skipped: {e}")
 
@@ -281,38 +412,47 @@ def main():
     try:
         ev = pd.read_csv(args.events_csv)
         if "source_path" in ev.columns and args.bandsplit:
+            flux_m = ev["source_path"].str.contains("/fluxatl/", na=False)
+            phot_m = ev["source_path"].str.contains("/photatl/", na=False)
+
             def _subset_L(beta_val, mask):
                 tmp = Path(tempfile.mkdtemp())
                 sub = ev.loc[mask].copy()
                 spath = tmp/"events_subset.csv"; sub.to_csv(spath, index=False)
                 subprocess.check_call([
-                    "python","-m","scripts.MDL.threadlaw_photoncode",
+                    "python","-m","scripts.analysis_pipeline.threadlaw_photoncode",
                     "--label", args.label, "--csv", str(spath), "--outdir", str(tmp),
                     "--grid", str(args.grid), "--beta-override", str(beta_val)
                 ])
                 bc = (tmp / args.label / "barcode_dense.csv")
                 dfb = pd.read_csv(bc)
-                col = ("kappa_int_rel" if "kappa_int_rel" in dfb.columns
-                       else "kappa_int" if "kappa_int" in dfb.columns else None)
-                present = dfb.loc[dfb.get("present",1)>0, col].astype(int)
+                col = ("kappa_int_rel" if "kappa_int_rel" in dfb.columns else
+                       "kappa_int"     if "kappa_int"     in dfb.columns else None)
+                if col is None: raise SystemExit("no kappa_int/_rel column in barcode_dense")
                 Nloc = int(round(args.kmax/args.grid))
-                Kloc = int(present[(present>=0)&(present<=Nloc)].count())
-                return Nloc, Kloc, code_length_bernoulli(Nloc, Kloc)
+                N_eff, first_bin, last_bin, K_uniq = _count_support_unique(dfb, col, Nloc)
+                L_bits = code_length_bernoulli(N_eff, K_uniq) if N_eff > 0 else 0.0
+                return Nloc, N_eff, first_bin, last_bin, K_uniq, L_bits
 
-            flux_m = ev["source_path"].str.contains("/fluxatl/", na=False)
-            phot_m = ev["source_path"].str.contains("/photatl/", na=False)
             out_rows = []
+            # iterate the merged β grid already computed above
             for r in rows:
                 b = r["beta"]
-                Nf,Kf,Lf = _subset_L(b, flux_m)
-                Np,Kp,Lp = _subset_L(b, phot_m)
-                out_rows.append({"beta": b,
-                                 "N_flux": Nf, "K_flux": Kf, "L_bits_flux": Lf,
-                                 "N_phot": Np, "K_phot": Kp, "L_bits_phot": Lp})
+                Nf, Nf_eff, firstf, lastf, Kf, Lf = _subset_L(b, flux_m)
+                Np, Np_eff, firstp, lastp, Kp, Lp = _subset_L(b, phot_m)
+                out_rows.append({
+                    "beta": b,
+                    "N_flux": Nf,  "N_eff_flux": Nf_eff,  "first_flux_bin": firstf, "last_flux_bin": lastf,
+                    "K_flux": Kf,  "L_bits_flux": Lf,
+                    "N_phot": Np,  "N_eff_phot": Np_eff,  "first_phot_bin": firstp, "last_phot_bin": lastp,
+                    "K_phot": Kp,  "L_bits_phot": Lp
+                })
 
             with open(outdir/"mdl_bandsplit.csv","w",newline="") as f:
                 w = csv.DictWriter(f, fieldnames=[
-                    "beta","N_flux","K_flux","L_bits_flux","N_phot","K_phot","L_bits_phot"
+                    "beta",
+                    "N_flux","N_eff_flux","first_flux_bin","last_flux_bin","K_flux","L_bits_flux",
+                    "N_phot","N_eff_phot","first_phot_bin","last_phot_bin","K_phot","L_bits_phot"
                 ])
                 w.writeheader(); w.writerows(out_rows)
     except Exception as e:
@@ -327,10 +467,9 @@ def main():
         null_beta = -abs(null_betas[0] if null_betas else beta0)
 
         # 2) build barcode at null_beta to get K_ref within 0..kmax
-        import pandas as pd
         tmpdir = Path(tempfile.mkdtemp())
         subprocess.check_call([
-            "python","-m","scripts.MDL.threadlaw_photoncode",
+            "python","-m","scripts.analysis_pipeline.threadlaw_photoncode",
             "--label", args.label, "--csv", args.events_csv, "--outdir", str(tmpdir),
             "--grid", str(args.grid), "--beta-override", str(null_beta)
         ])
@@ -354,7 +493,7 @@ def main():
         with open(outdir/"mdl_null.csv","w",newline="") as f:
             w = csv.DictWriter(f, fieldnames=["beta","N","K_ref","L_bits_null","null_beta","null_windows"])
             w.writeheader()
-            for b in beta_list:
+            for b in beta_list_for_null:
                 w.writerow({"beta": b, "N": N, "K_ref": K_ref, "L_bits_null": L_ref,
                             "null_beta": null_beta, "null_windows": int(args.null_windows)})
 
@@ -401,24 +540,42 @@ def main():
         })
         beta_alpha = math.log10(1/137.035999084)
         df_all = pd.read_csv(outdir/"mdl_sweep.csv").sort_values("beta")
-
-        # --- restrict to the physical region (avoid shallow-slope artifact) ---
-        df = df_all.loc[df_all["beta"] <= -0.8].copy()
-        if df.empty:
-            df = df_all.copy()  # fallback: plot whatever we have
-
-        # --- compute ΔL relative to the min within the physical region ---
-        Lmin = float(df["L_bits"].min()) if not df.empty else float("nan")
+        df = df_all.copy()
+        Lmin = float(df["L_bits"].min())
         df["dL_bits"] = df["L_bits"] - Lmin
 
-        # optional null (flat, for visual reference) – compute Δ to match ΔL scale
-        dn = None
-        null_path = outdir/"mdl_null.csv"
-        if null_path.exists():
-            dn_raw = pd.read_csv(null_path).sort_values("beta")
-            dn = dn_raw.loc[dn_raw["beta"].isin(df["beta"])].copy()
-            if not dn.empty:
-                dn["dL_bits_null"] = dn["L_bits_null"] - Lmin
+        # --- structure gain: sum_windowed_MDLS - global_MDL at each β ---
+        # load windowed MDLs and sum across windows for each β
+        win_path = outdir / "mdl_windowed.csv"
+        if not win_path.exists():
+            raise RuntimeError("mdl_windowed.csv not found — run with --windows enabled to compute structure gain.")
+
+        win = pd.read_csv(win_path)
+        # keep only betas that are in the physical df
+        win = win.loc[win["beta"].isin(df["beta"])].copy()
+        sum_win = (win.groupby("beta", as_index=False)["L_bits_win"]
+                      .sum()
+                      .rename(columns={"L_bits_win":"L_bits_win_sum"}))
+
+        # merge with global MDL
+        df = df.merge(sum_win, on="beta", how="left")
+
+        # structure gain (more negative => more structure)
+        df["G_struct"] = df["L_bits_win_sum"] - df["L_bits"]
+
+        # Replace +/-inf with NaN, then drop any NaNs in the columns we plot
+        df = df.replace([np.inf, -np.inf], np.nan).dropna(
+            subset=["beta", "G_struct", "L_bits", "L_bits_win_sum"]
+).copy()
+
+        # Robust inlier band on G_struct (2nd–98th percentile) for aesthetics
+        y_all = df["G_struct"].to_numpy()
+        if y_all.size >= 3 and np.isfinite(y_all).any():
+            ylo, yhi = np.nanpercentile(y_all, 2), np.nanpercentile(y_all, 98)
+            mask_in  = (y_all >= ylo) & (y_all <= yhi)
+        else:
+            mask_in  = np.ones_like(y_all, dtype=bool)
+        mask_out = ~mask_in
 
         def decorate(ax, zoom=False):
             ax.axvline(beta_alpha, ls="--", color="tab:blue", lw=1.0, alpha=0.9)
@@ -426,7 +583,7 @@ def main():
             ax.axvspan(beta_alpha - 0.010, beta_alpha + 0.010,
                        color="tab:blue", alpha=0.10, lw=0)
             ax.set_xlabel(r"$\beta$")
-            ax.set_ylabel(r"$\Delta L$ (bits)")
+            ax.set_ylabel(r"$G(\beta) = \sum_w L_w - L_{\mathrm{global}}\;\;(\mathrm{bits})$")
             ax.grid(False)
             ax.xaxis.set_major_locator(MaxNLocator(nbins=6))
             ax.yaxis.set_major_locator(MaxNLocator(nbins=6))
@@ -434,40 +591,33 @@ def main():
 
         fig, (ax1, ax2) = plt.subplots(1,2, figsize=(11,3.8), gridspec_kw={"wspace":0.28})
 
-        # --- robust inlier band on ΔL (within physical region) ---
-        y = df["dL_bits"].to_numpy()
-        if len(y):
+        # y-limits for the left panel based on G_struct
+        y = df["G_struct"].to_numpy()
+        if y.size and np.isfinite(y).any():
             ylo, yhi = np.nanpercentile(y, 2), np.nanpercentile(y, 98)
-            mask_in = (y >= ylo) & (y <= yhi)
-        else:
-            mask_in = np.ones_like(y, dtype=bool)
-        mask_out = ~mask_in
+            if np.isfinite(ylo) and np.isfinite(yhi):
+                pad = 0.06 * max(1e-9, (yhi - ylo))
+                ax1.set_ylim(ylo - pad, yhi + pad)
 
         # LEFT: physical full span, ΔL (single stats box; no legend)
         series_label = (args.series_name or args.label)
 
         # main curve (inliers)
         ax1.plot(
-            df["beta"][mask_in], df["dL_bits"][mask_in],
+            df["beta"][mask_in], df["G_struct"][mask_in],
             marker="o", ms=2.4, lw=1.0, color="tab:blue", alpha=0.95
         )
-
-        # visible outliers (no legend entry)
         if mask_out.any():
-            n_out = int(mask_out.sum())
             ax1.scatter(
-                df["beta"][mask_out], df["dL_bits"][mask_out],
+                df["beta"][mask_out], df["G_struct"][mask_out],
                 marker="x", s=18, lw=0.8, color="0.55", alpha=0.70
             )
 
-        # density-preserving null (no legend entry)
-        if dn is not None and not dn.empty:
-            ax1.plot(dn["beta"], dn["dL_bits_null"], lw=1.0, color="tab:orange", alpha=0.95)
-
         decorate(ax1, zoom=False)
         if len(y):
-            pad = 0.06 * (yhi - ylo)
-            ax1.set_ylim(max(0, ylo - pad), yhi + pad)  # ΔL is non-negative
+            if len(y):
+                pad = 0.06 * (yhi - ylo)
+                ax1.set_ylim(ylo - pad, yhi + pad)
 
         # build compact stats box (acts as the only "legend")
         try:
@@ -493,20 +643,41 @@ def main():
             bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="0.8")
         )
 
-        # RIGHT: tight zoom around α, ΔL (no legend)
+        # RIGHT: tight zoom around α, structure gain G(β) (no legend)
         z_lo, z_hi = beta_alpha - 0.024, beta_alpha + 0.024
-        dfz = df[(df["beta"] >= z_lo) & (df["beta"] <= z_hi)]
+        dfz = df[(df["beta"] >= z_lo) & (df["beta"] <= z_hi)].copy()
 
-        ax2.plot(dfz["beta"], dfz["dL_bits"], marker="o", ms=2.4, lw=1.0, color="tab:blue")
-        if dn is not None and not dn.empty:
-            dnz = dn[(dn["beta"] >= z_lo) & (dn["beta"] <= z_hi)]
-            if not dnz.empty:
-                ax2.plot(dnz["beta"], dnz["dL_bits_null"], lw=1.0, color="tab:orange", alpha=0.95)
+        # plot G_struct in the zoom window
+        ax2.plot(
+            dfz["beta"], dfz["G_struct"],
+            marker="o", ms=2.4, lw=1.0, color="tab:blue"
+        )
 
-        ax2.set_xlim(z_lo, z_hi)
+        # vertical α line and a light band for the zoom window
+        ax2.axvline(beta_alpha, ls="--", lw=1.0, color="tab:blue", alpha=0.7)
+        ax2.axvspan(z_lo, z_hi, color="tab:blue", alpha=0.08)
+
+        # y-limits sized to the local range of G_struct
+        if not dfz.empty and np.isfinite(dfz["G_struct"]).any():
+            y_min = float(np.nanmin(dfz["G_struct"]))
+            y_max = float(np.nanmax(dfz["G_struct"]))
+            if np.isfinite(y_min) and np.isfinite(y_max):
+                ypad  = (y_max - y_min) * 0.15 + 0.1
+                if ypad <= 0: ypad = 0.5
+                ax2.set_ylim(y_min - ypad, y_max + ypad)
+
+        # OPTIONAL: label the interior minimum β* of G(β) if present
         if not dfz.empty:
-            ypad = (dfz["dL_bits"].max() - dfz["dL_bits"].min()) * 0.15 + 0.5
-            ax2.set_ylim(0, max(0.5, dfz["dL_bits"].max() + ypad))
+            idx_min = dfz["G_struct"].idxmin()
+            bx, by = float(dfz.at[idx_min, "beta"]), float(dfz.at[idx_min, "G_struct"])
+            ax2.annotate(
+                r"$\beta^\ast$", xy=(bx, by), xytext=(0.02, 0.10),
+                textcoords="axes fraction",
+                bbox=dict(boxstyle="round,pad=0.25", fc="white", ec="0.7"),
+                arrowprops=dict(arrowstyle="->", color="0.4"),
+                fontsize=8
+            )
+
         decorate(ax2, zoom=True)
 
         # annotate β* near α if available
@@ -522,7 +693,7 @@ def main():
                 fontsize=7.5, ha="left", va="bottom", color="0.2"
             )
 
-        fig.suptitle(f"{args.label}: ΔL(β)", y=0.98, fontsize=11.5)
+        fig.suptitle(f"{args.label}: structure gain  G(β) = Σ_w L_w − L_global", y=0.98, fontsize=11.5)
         fig.tight_layout(rect=[0.01, 0.01, 0.99, 0.94])
         fig.savefig(outdir / "L_vs_beta_full+zoom.png", dpi=220, bbox_inches="tight")
         fig.savefig(outdir / "L_vs_beta_full+zoom.svg", bbox_inches="tight")

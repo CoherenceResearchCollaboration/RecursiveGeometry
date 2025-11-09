@@ -1,20 +1,23 @@
-# Recursive Geometry of Atomic Spectra
+# Recursive Geometry of Atomic Spectra  
 ## Software Reproducibility Pack
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687)
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687)  
+[![DOI](https:// zenodo.org/badge/DOI/10.5281/zenodo.17335815.svg)](https://doi.org/10.5281/zenodo.17335815)  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17402933.svg)](https://doi.org/10.5281/zenodo.17402933)
+
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
 
 **Latest preprint:** [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687)  
+**Other works:** [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815)  
 **This version (v2):** [10.5281/zenodo.17188444](https://doi.org/10.5281/zenodo.17188444)  
 **Narrative:** https://www.thecoherencecode.com  
 **Kelly Heaton:** https://www.linkedin.com/in/kelly-heaton-studio/
 
-> **Note:** To reproduce the γ-ladder, you’ll need basic Python skills. 
-Consumer hardware is fine (this work was done on a 4-year-old M1 Mac using Terminal).
-Source data are public at NIST: 
-https://physics.nist.gov/PhysRefData/ASD/levels_form.html
-https://physics.nist.gov/PhysRefData/ASD/lines_form.html
+> **Note:** To reproduce the γ-ladder, you’ll need basic Python skills. Consumer hardware is fine (this work was done on a 4-year-old M1 Mac using Terminal).  
+> Source data are public at NIST:  
+> https://physics.nist.gov/PhysRefData/ASD/levels_form.html  
+> https://physics.nist.gov/PhysRefData/ASD/lines_form.html
 
 ---
 
@@ -387,6 +390,28 @@ python -m scripts.views.ion_identity.plot_gamma_ladder_views \
   --out  data/results/plots/gamma_levels_by-tower/H_I_4_gamma_vs_nk_grid.png \
   --marker x --cmap viridis
 ```
+
+---
+
+## Next-Stage Research Modules
+
+The present repository also hosts the follow-on studies that extend the α-Affine Thread Frame into macroscopic field tests and compression geometry:
+
+| Study | DOI / Tag | Scope |
+|-------|------------|-------|
+| **Information-Theoretic Confirmation of the α-Affine Thread Frame** | [10.5281/zenodo.17335814](https://doi.org/10.5281/zenodo.17335814) | MDL validation of the universal slope β ≈ log₁₀α |
+| **A Local Electromagnetic Wave Equation from Spectral Geometry** | [10.5281/zenodo.17402933](https://doi.org/10.5281/zenodo.17402933) | Radiocode implementation and Maxwellian verification using public GRAPE V1 HF data |
+
+### Electromagnetism (Radiocodes)
+
+Reproduction scripts live under  
+`scripts/analysis_pipeline/radio_delay_analysis.py` and `scripts/analysis_pipeline/pretty_dtau_plot.py`.  
+They process the open GRAPE V1 Doppler dataset ([Collins et al., 2024](https://doi.org/10.5281/zenodo.13637199)) to reproduce the ionospheric verification shown in Fig. 3 of the electromagnetic paper.
+
+A concise README for that module is provided at  
+`README_ELECTROMAG.md`.
+
+---
 
 # To cite this work:
 
