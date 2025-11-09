@@ -1,12 +1,25 @@
 # Recursive Geometry of Atomic Spectra  
-## Software Reproducibility Pack
+### *Research Series and Software Reproducibility Pack*
 
-[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687)  
-[![DOI](https:// zenodo.org/badge/DOI/10.5281/zenodo.17335815.svg)](https://doi.org/10.5281/zenodo.17335815)  
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687) 
+[![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17335815.svg)](https://doi.org/10.5281/zenodo.17335815) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17402933.svg)](https://doi.org/10.5281/zenodo.17402933)
 
-[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE)  
+[![License: MIT](https://img.shields.io/badge/License-MIT-yellow.svg)](LICENSE) 
 ![Python 3.10+](https://img.shields.io/badge/python-3.10%2B-blue)
+
+**Series Overview**  
+This repository unifies all open-source research software and data pipelines for the *Coherence Research Collaboration* series:  
+
+| Paper / Module | DOI | Description |
+|----------------|-----|--------------|
+| *Recursive Geometry of Atomic Spectra* | [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687) | Foundational γ-ladder and thread-frame geometry |
+| *Information-Theoretic Confirmation of the α-Affine Thread Frame* | [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815) | MDL validation of the universal slope β≈log₁₀α |
+| *A Local Electromagnetic Wave Equation from Spectral Geometry* | [10.5281/zenodo.17402933](https://doi.org/10.5281/zenodo.17402933) | Maxwellian verification / Radiocode implementation — see [README_ELECTROMAG.md](README_ELECTROMAG.md) |
+
+For detailed instructions and datasets related to the electromagnetic verification, see [README_ELECTROMAG.md](README_ELECTROMAG.md).
+
+---
 
 **Latest preprint:** [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687)  
 **Other works:** [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815)  
