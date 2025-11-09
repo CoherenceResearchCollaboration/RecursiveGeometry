@@ -4,3 +4,15 @@ __pycache__/
 .DS_Store
 __pycache__/
 *.pyc
+.DS_Store
+.venv/
+__pycache__/
+_provenance.json
+results/
+data/Grape_V1/
+data/solar/
+data/stars/
+data/molecules/
+*.psd
+*.ai
+*.docx
