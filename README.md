@@ -1,6 +1,22 @@
 # Recursive Geometry of Atomic Spectra  
 ### *Research Series and Software Reproducibility Pack*
 
+# Status notice
+
+This repository is preserved as a historical reproducibility pack for the Recursive Geometry / early Thread Frame work.
+
+It remains useful for provenance, code review, and reconstruction of earlier analyses. However, the current program no longer treats this repository as the live claim ceiling.
+
+Thread Frame is now being rebuilt as a levels-first spectroscopic audit instrument with stronger provenance, null comparisons, covariance handling, observed-channel cycle closure, and admission gates.
+
+Current research home:
+
+https://www.lucernaveritas.ai/
+
+The historic record follows.
+
+---
+
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17167687.svg)](https://doi.org/10.5281/zenodo.17167687) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17335815.svg)](https://doi.org/10.5281/zenodo.17335815) 
 [![DOI](https://zenodo.org/badge/DOI/10.5281/zenodo.17402933.svg)](https://doi.org/10.5281/zenodo.17402933)
