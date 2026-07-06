@@ -71,12 +71,13 @@ Code is released **as-is** for scientific verification; this is **no-support mod
 
 ---
 
-## What this repo reproduces
+## What this historical release reproduces
 
-**Non-circular, two-phase pipeline.**  
+**Original two-phase pipeline.**  
 (I) Build recursion depth **γ** from *levels only*.  
-(II) Overlay photons post-hoc and analyze threads in the **Thread Frame** (γ, log₁₀ν).  
-Tilt is anchored (**β ≈ log₁₀α**); physics lives in **intercepts χ** (mass/Z²/site transport) and **microslopes**.
+(II) Overlay photons post-hoc and analyze the original Thread Frame representation (γ, log₁₀ν).
+
+The original release analyzed tilt, intercepts χ, and microslopes. Current interpretation is historical and under the program’s newer Determinacy-governed audit framework.
 
 ---
 
