@@ -29,9 +29,9 @@ This repository unifies all open-source research software and data pipelines for
 
 | Paper / Module | DOI | Description |
 |----------------|-----|--------------|
-| *Recursive Geometry of Atomic Spectra* | [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687) | Foundational γ-ladder and thread-frame geometry |
-| *Information-Theoretic Confirmation of the α-Affine Thread Frame* | [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815) | MDL validation of the universal slope β≈log₁₀α |
-| *A Local Electromagnetic Wave Equation from Spectral Geometry* | [10.5281/zenodo.17402933](https://doi.org/10.5281/zenodo.17402933) | Maxwellian verification / Radiocode implementation — see [README_ELECTROMAG.md](README_ELECTROMAG.md) |
+| *Recursive Geometry of Atomic Spectra* | [10.5281/zenodo.17167687](https://doi.org/10.5281/zenodo.17167687) | Historic γ-ladder and thread-frame geometry |
+| *Information-Theoretic Confirmation of the α-Affine Thread Frame* | [10.5281/zenodo.17335815](https://doi.org/10.5281/zenodo.17335815) | Historical MDL analysis of the β≈log₁₀α slope |
+| *A Local Electromagnetic Wave Equation from Spectral Geometry* | [10.5281/zenodo.17402933](https://doi.org/10.5281/zenodo.17402933) | Historical electromagnetic-analysis / radiocode implementation — see [README_ELECTROMAG.md](README_ELECTROMAG.md) |
 
 ---
 
