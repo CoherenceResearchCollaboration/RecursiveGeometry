@@ -1,6 +1,22 @@
 # A Local Electromagnetic Wave Equation from Spectral Geometry
 ### *Maxwellian Verification and Radiocode Implementation*
 
+# Status notice
+
+This repository is preserved as a historical reproducibility pack for the Recursive Geometry / early Thread Frame work.
+
+It remains useful for provenance, code review, and reconstruction of earlier analyses. However, the current program no longer treats this repository as the live claim ceiling.
+
+Thread Frame is now being rebuilt as a levels-first spectroscopic audit instrument with stronger provenance, null comparisons, covariance handling, observed-channel cycle closure, and admission gates.
+
+Current research home:
+
+https://www.lucernaveritas.ai/
+
+The historic record follows.
+
+---
+
 [📄 Preprint PDF (v1.0)](preprint/A_Local_Electromagnetic_Wave_Equation_from_Spectral_Geometry.pdf)  
 DOI 10.5281/zenodo.17402933
 
